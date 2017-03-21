@@ -9,5 +9,6 @@ var/SymfonyRequirements.php
 /vendor/
 /web/bundles/
 /.idea/
-/resource/
+/resource/*
+
 
