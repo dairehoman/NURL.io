@@ -9,12 +9,10 @@ use Symfony\Component\HttpFoundation\Request;
 class DefaultController extends Controller {
 
     /**
-     * @Route("/", name="homepage")
+     * @Route("/", name="index")
      */
     public function indexAction(Request $request) {
-        $argsArray = [
-            'name' => 'daire'
-        ];
+        $argsArray = [ ];
 
         $templateName = 'index';
         return $this->render($templateName . '.html.twig', $argsArray); }
