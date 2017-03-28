@@ -5,30 +5,44 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+
 
 /**
  * User controller.
  *
- * @Route("user")
+ * @Route("/user")
  */
 class UserController extends Controller
 {
+//    /**
+//     * Lists all user entities.
+//     *
+//     * @Route("/", name="user_index")
+//     * @Method("GET")
+//     */
+//    public function indexAction()
+//    {
+//        $em = $this->getDoctrine()->getManager();
+//
+//        $users = $em->getRepository('AppBundle:User')->findAll();
+//
+//        return $this->render('user/index.html.twig', array(
+//            'users' => $users,
+//        ));
+//    }
+
     /**
-     * Lists all user entities.
-     *
      * @Route("/", name="user_index")
-     * @Method("GET")
+     * @Security("has_role('ROLE_USER')")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $users = $em->getRepository('AppBundle:User')->findAll();
-
-        return $this->render('user/index.html.twig', array(
-            'users' => $users,
-        ));
+        $argsArray =  [ ];
+        $templateName = 'index';
+        return $this->render($templateName . '.html.twig', $argsArray);
     }
 
     /**

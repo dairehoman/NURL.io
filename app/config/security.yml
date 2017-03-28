@@ -1,24 +1,36 @@
-# To get started with security, check out the documentation:
-# http://symfony.com/doc/current/security.html
-security:
 
-    # http://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
+security:
+    encoders:
+        Symfony\Component\Security\Core\User\User:
+            algorithm: bcrypt
+            cost: 12
+
     providers:
         in_memory:
-            memory: ~
+            memory:
+                users:
+                    user:
+                        password: $2y$12$xLgPXKb54v3Ysr9KnaDlAecucOh7tDwe6G.RnMjxIy5ge95SL951K
+                        roles: 'ROLE_USER'
+                    admin:
+                        password: $2y$12$Xo5OK3.k.sdJRDHLMUnGc.kLSX7eIV0IeIiF/pbSyDQNEMJtjfz6W
+                        roles: 'ROLE_ADMIN'
+                    moderator:
+                        password: $2y$12$Vnzp.ARM.Urw6XTyCoTr1OzFj.1uRW5yePNYeIyk4mLIyi35.W2YO
+                        roles: 'ROLE_MODERATOR'
 
     firewalls:
-        # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
-        main:
+        default:
             anonymous: ~
-            # activate different ways to authenticate
+            form_login:
+                login_path: login
+                check_path: login
 
-            # http_basic: ~
-            # http://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
+            logout:
+                path:   /logout
+                target: /
 
-            # form_login: ~
-            # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
