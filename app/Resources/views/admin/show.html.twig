@@ -1,71 +1,71 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>User</h1>
+    <h1>Admin</h1>
 
     <table>
         <tbody>
             <tr>
                 <th>Id</th>
-                <td>{{ user.id }}</td>
+                <td>{{ admin.id }}</td>
             </tr>
             <tr>
                 <th>Username</th>
-                <td>{{ user.username }}</td>
+                <td>{{ admin.username }}</td>
             </tr>
             <tr>
                 <th>Password</th>
-                <td>{{ user.password }}</td>
+                <td>{{ admin.password }}</td>
             </tr>
             <tr>
                 <th>Role</th>
-                <td>{{ user.role }}</td>
+                <td>{{ admin.role }}</td>
             </tr>
             <tr>
                 <th>Profilepic</th>
-                <td>{{ user.profilePic }}</td>
+                <td>{{ admin.profilePic }}</td>
             </tr>
             <tr>
                 <th>Numnurlscreated</th>
-                <td>{{ user.numNurlsCreated }}</td>
+                <td>{{ admin.numNurlsCreated }}</td>
             </tr>
             <tr>
                 <th>Numnotescreated</th>
-                <td>{{ user.numNotesCreated }}</td>
+                <td>{{ admin.numNotesCreated }}</td>
             </tr>
             <tr>
                 <th>Datemembersince</th>
-                <td>{% if user.dateMemberSince %}{{ user.dateMemberSince|date('Y-m-d') }}{% endif %}</td>
+                <td>{% if admin.dateMemberSince %}{{ admin.dateMemberSince|date('Y-m-d') }}{% endif %}</td>
             </tr>
             <tr>
                 <th>Bio</th>
-                <td>{{ user.bio }}</td>
+                <td>{{ admin.bio }}</td>
             </tr>
             <tr>
                 <th>College</th>
-                <td>{{ user.college }}</td>
+                <td>{{ admin.college }}</td>
             </tr>
             <tr>
                 <th>Company</th>
-                <td>{{ user.company }}</td>
+                <td>{{ admin.company }}</td>
             </tr>
             <tr>
                 <th>Interests</th>
-                <td>{{ user.interests }}</td>
+                <td>{{ admin.interests }}</td>
             </tr>
             <tr>
                 <th>Isprivate</th>
-                <td>{% if user.isPrivate %}Yes{% else %}No{% endif %}</td>
+                <td>{% if admin.isPrivate %}Yes{% else %}No{% endif %}</td>
             </tr>
         </tbody>
     </table>
 
     <ul>
         <li>
-            <a href="{{ path('user_index') }}">Back to the list</a>
+            <a href="{{ path('admin_index') }}">Back to the list</a>
         </li>
         <li>
-            <a href="{{ path('user_edit', { 'id': user.id }) }}">Edit</a>
+            <a href="{{ path('admin_edit', { 'id': admin.id }) }}">Edit</a>
         </li>
         <li>
             {{ form_start(delete_form) }}

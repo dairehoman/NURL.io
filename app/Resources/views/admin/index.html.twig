@@ -1,5 +1,61 @@
 {% extends 'base.html.twig' %}
-    {% block pageTitle %}home page{% endblock %}
-    {% block body %}
-        <h1>ADMIN - INDEX</h1>
-    {% endblock %}
+
+{% block body %}
+    <h1>Admins list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Username</th>
+                <th>Password</th>
+                <th>Role</th>
+                <th>Profilepic</th>
+                <th>Numnurlscreated</th>
+                <th>Numnotescreated</th>
+                <th>Datemembersince</th>
+                <th>Bio</th>
+                <th>College</th>
+                <th>Company</th>
+                <th>Interests</th>
+                <th>Isprivate</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for admin in admins %}
+            <tr>
+                <td><a href="{{ path('admin_show', { 'id': admin.id }) }}">{{ admin.id }}</a></td>
+                <td>{{ admin.username }}</td>
+                <td>{{ admin.password }}</td>
+                <td>{{ admin.role }}</td>
+                <td>{{ admin.profilePic }}</td>
+                <td>{{ admin.numNurlsCreated }}</td>
+                <td>{{ admin.numNotesCreated }}</td>
+                <td>{% if admin.dateMemberSince %}{{ admin.dateMemberSince|date('Y-m-d') }}{% endif %}</td>
+                <td>{{ admin.bio }}</td>
+                <td>{{ admin.college }}</td>
+                <td>{{ admin.company }}</td>
+                <td>{{ admin.interests }}</td>
+                <td>{% if admin.isPrivate %}Yes{% else %}No{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('admin_show', { 'id': admin.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('admin_edit', { 'id': admin.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_new') }}">Create a new admin</a>
+        </li>
+    </ul>
+{% endblock %}

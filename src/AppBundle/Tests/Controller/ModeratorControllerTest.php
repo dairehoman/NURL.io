@@ -4,21 +4,22 @@ namespace AppBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class NoteControllerTest extends WebTestCase
+class ModeratorControllerTest extends WebTestCase
 {
+    /*
     public function testCompleteScenario()
     {
         // Create a new client to browse the application
         $client = static::createClient();
 
         // Create a new entry in the database
-        $crawler = $client->request('GET', '/note/');
-        $this->assertEquals(200, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /note/");
+        $crawler = $client->request('GET', '/moderator/');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /moderator/");
         $crawler = $client->click($crawler->selectLink('Create a new entry')->link());
 
         // Fill in the form and submit it
         $form = $crawler->selectButton('Create')->form(array(
-            'appbundle_note[field_name]'  => 'Test',
+            'appbundle_moderator[field_name]'  => 'Test',
             // ... other fields to fill
         ));
 
@@ -32,7 +33,7 @@ class NoteControllerTest extends WebTestCase
         $crawler = $client->click($crawler->selectLink('Edit')->link());
 
         $form = $crawler->selectButton('Update')->form(array(
-            'appbundle_note[field_name]'  => 'Foo',
+            'appbundle_moderator[field_name]'  => 'Foo',
             // ... other fields to fill
         ));
 
@@ -50,4 +51,5 @@ class NoteControllerTest extends WebTestCase
         $this->assertNotRegExp('/Foo/', $client->getResponse()->getContent());
     }
 
+    */
 }

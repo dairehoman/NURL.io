@@ -404,3 +404,4 @@ class User
         return $this->isPrivate;
     }
 }
+

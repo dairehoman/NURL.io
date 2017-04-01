@@ -5,12 +5,12 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * User
+ * Admin
  *
- * @ORM\Table(name="user")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
+ * @ORM\Table(name="admin")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\AdminRepository")
  */
-class User
+class Admin
 {
     /**
      * @var int
@@ -404,3 +404,4 @@ class User
         return $this->isPrivate;
     }
 }
+
