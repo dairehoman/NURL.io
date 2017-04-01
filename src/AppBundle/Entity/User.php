@@ -24,6 +24,13 @@ class User
     /**
      * @var string
      *
+     * @ORM\Column(name="roles", type="string", length=255)
+     */
+    private $roles;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="username", type="string", length=255)
      */
     private $username;
@@ -31,16 +38,65 @@ class User
     /**
      * @var string
      *
-     * @ORM\Column(name="password", type="string")
+     * @ORM\Column(name="password", type="string", length=255)
      */
     private $password;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="role", type="string", length=255)
+     * @ORM\Column(name="profilePic", type="string", length=255)
      */
-    private $role;
+    private $profilePic;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="numNurls", type="integer")
+     */
+    private $numNurls;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="numNotes", type="integer")
+     */
+    private $numNotes;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="memberSince", type="date")
+     */
+    private $memberSince;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="bio", type="string", length=255)
+     */
+    private $bio;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="college", type="string", length=255)
+     */
+    private $college;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="company", type="string", length=255)
+     */
+    private $company;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="interests", type="string", length=255)
+     */
+    private $interests;
 
 
     /**
@@ -51,6 +107,30 @@ class User
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set roles
+     *
+     * @param string $roles
+     *
+     * @return User
+     */
+    public function setRoles($roles)
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * Get roles
+     *
+     * @return string
+     */
+    public function getRoles()
+    {
+        return $this->roles;
     }
 
     /**
@@ -102,27 +182,195 @@ class User
     }
 
     /**
-     * Set role
+     * Set profilePic
      *
-     * @param string $role
+     * @param string $profilePic
      *
      * @return User
      */
-    public function setRole($role)
+    public function setProfilePic($profilePic)
     {
-        $this->role = $role;
+        $this->profilePic = $profilePic;
 
         return $this;
     }
 
     /**
-     * Get role
+     * Get profilePic
      *
      * @return string
      */
-    public function getRole()
+    public function getProfilePic()
     {
-        return $this->role;
+        return $this->profilePic;
+    }
+
+    /**
+     * Set numNurls
+     *
+     * @param integer $numNurls
+     *
+     * @return User
+     */
+    public function setNumNurls($numNurls)
+    {
+        $this->numNurls = $numNurls;
+
+        return $this;
+    }
+
+    /**
+     * Get numNurls
+     *
+     * @return int
+     */
+    public function getNumNurls()
+    {
+        return $this->numNurls;
+    }
+
+    /**
+     * Set numNotes
+     *
+     * @param integer $numNotes
+     *
+     * @return User
+     */
+    public function setNumNotes($numNotes)
+    {
+        $this->numNotes = $numNotes;
+
+        return $this;
+    }
+
+    /**
+     * Get numNotes
+     *
+     * @return int
+     */
+    public function getNumNotes()
+    {
+        return $this->numNotes;
+    }
+
+    /**
+     * Set memberSince
+     *
+     * @param \DateTime $memberSince
+     *
+     * @return User
+     */
+    public function setMemberSince($memberSince)
+    {
+        $this->memberSince = $memberSince;
+
+        return $this;
+    }
+
+    /**
+     * Get memberSince
+     *
+     * @return \DateTime
+     */
+    public function getMemberSince()
+    {
+        return $this->memberSince;
+    }
+
+    /**
+     * Set bio
+     *
+     * @param string $bio
+     *
+     * @return User
+     */
+    public function setBio($bio)
+    {
+        $this->bio = $bio;
+
+        return $this;
+    }
+
+    /**
+     * Get bio
+     *
+     * @return string
+     */
+    public function getBio()
+    {
+        return $this->bio;
+    }
+
+    /**
+     * Set college
+     *
+     * @param string $college
+     *
+     * @return User
+     */
+    public function setCollege($college)
+    {
+        $this->college = $college;
+
+        return $this;
+    }
+
+    /**
+     * Get college
+     *
+     * @return string
+     */
+    public function getCollege()
+    {
+        return $this->college;
+    }
+
+    /**
+     * Set company
+     *
+     * @param string $company
+     *
+     * @return User
+     */
+    public function setCompany($company)
+    {
+        $this->company = $company;
+
+        return $this;
+    }
+
+    /**
+     * Get company
+     *
+     * @return string
+     */
+    public function getCompany()
+    {
+        return $this->company;
+    }
+
+    /**
+     * Set interests
+     *
+     * @param string $interests
+     *
+     * @return User
+     */
+    public function setInterests($interests)
+    {
+        $this->interests = $interests;
+
+        return $this;
+    }
+
+    /**
+     * Get interests
+     *
+     * @return string
+     */
+    public function getInterests()
+    {
+        return $this->interests;
     }
 }
 

@@ -6,14 +6,14 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class UserType extends AbstractType
+class NoteType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('roles')->add('username')->add('password')->add('profilePic')->add('numNurls')->add('numNotes')->add('memberSince')->add('bio')->add('college')->add('company')->add('interests');
+        $builder->add('created')->add('note');
     }
     
     /**
@@ -22,7 +22,7 @@ class UserType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\User'
+            'data_class' => 'AppBundle\Entity\Note'
         ));
     }
 
@@ -31,7 +31,7 @@ class UserType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'appbundle_user';
+        return 'appbundle_note';
     }
 
 

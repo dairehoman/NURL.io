@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Nurl</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ nurl.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ nurl.title }}</td>
+            </tr>
+            <tr>
+                <th>Link</th>
+                <td>{{ nurl.link }}</td>
+            </tr>
+            <tr>
+                <th>Source</th>
+                <td>{{ nurl.source }}</td>
+            </tr>
+            <tr>
+                <th>Created</th>
+                <td>{% if nurl.created %}{{ nurl.created|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Lastedited</th>
+                <td>{% if nurl.lastEdited %}{{ nurl.lastEdited|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('nurl_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('nurl_edit', { 'id': nurl.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}
