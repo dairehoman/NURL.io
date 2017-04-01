@@ -13,13 +13,13 @@ use Symfony\Component\HttpFoundation\Request;
 class AdminController extends Controller
 {
     /**
-     * @Route("/", name="admin_index")
+     * @Route("/", name="admin_home")
      * @Security("has_role('ROLE_ADMIN')")
      */
     public function indexAction(Request $request)
     {
         $argsArray =  [ ];
-        $templateName = 'index';
+        $templateName = 'admin/index';
         return $this->render($templateName . '.html.twig', $argsArray);
     }
 }
