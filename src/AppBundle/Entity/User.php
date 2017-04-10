@@ -37,28 +37,6 @@ class User
         $this->nurls = $nurls;
     }
 
-    /**
-     * One User has Many Collections.
-     * @var \AppBundle\Entity\Collection
-     * @ORM\OneToMany(targetEntity="Collection", mappedBy="user")
-     */
-    private $collections;
-
-    /**
-     * @return mixed
-     */
-    public function getNurls()
-    {
-        return $this->nurls;
-    }
-
-    /**
-     * @param mixed $nurls
-     */
-    public function setNurls($nurls)
-    {
-        $this->nurls = $nurls;
-    }
 
     /**
      * @var int
