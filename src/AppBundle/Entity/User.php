@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -12,6 +13,53 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class User
 {
+
+    /**
+     * One User has Many Nurls.
+     * @var \AppBundle\Entity\Nurl
+     * @ORM\OneToMany(targetEntity="Nurl", mappedBy="user")
+     */
+    private $nurls;
+
+    /**
+     * @return mixed
+     */
+    public function getNurls()
+    {
+        return $this->nurls;
+    }
+
+    /**
+     * @param mixed $nurls
+     */
+    public function setNurls($nurls)
+    {
+        $this->nurls = $nurls;
+    }
+
+    /**
+     * One User has Many Collections.
+     * @var \AppBundle\Entity\Collection
+     * @ORM\OneToMany(targetEntity="Collection", mappedBy="user")
+     */
+    private $collections;
+
+    /**
+     * @return mixed
+     */
+    public function getNurls()
+    {
+        return $this->nurls;
+    }
+
+    /**
+     * @param mixed $nurls
+     */
+    public function setNurls($nurls)
+    {
+        $this->nurls = $nurls;
+    }
+
     /**
      * @var int
      *
@@ -402,5 +450,37 @@ class User
     public function getIsPrivate()
     {
         return $this->isPrivate;
+    }
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->nurls = new ArrayCollection();
+    }
+
+    /**
+     * Add nurl
+     *
+     * @param \AppBundle\Entity\Nurl $nurl
+     *
+     * @return User
+     */
+    public function addNurl(Nurl $nurl)
+    {
+        $this->nurls[] = $nurl;
+
+        return $this;
+    }
+
+    /**
+     * Remove nurl
+     *
+     * @param \AppBundle\Entity\Nurl $nurl
+     */
+    public function removeNurl(Nurl $nurl)
+    {
+        $this->nurls->removeElement($nurl);
     }
 }

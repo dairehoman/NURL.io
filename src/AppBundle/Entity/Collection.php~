@@ -2,7 +2,6 @@
 
 namespace AppBundle\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -13,60 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Collection
 {
-    /**
-     * Many Collections have Many Nurls.
-     * @var \AppBundle\Entity\Nurl
-     * @ORM\ManyToMany(targetEntity="Nurl")
-     */
-    private $nurls;
 
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->nurls = new ArrayCollection();
-    }
-
-    /**
-     * Add nurl
-     *
-     * @param \AppBundle\Entity\Nurl $nurl
-     *
-     * @return Collection
-     */
-    public function addNurl(Nurl $nurl)
-    {
-        $this->nurls[] = $nurl;
-
-        return $this;
-    }
-
-    /**
-     * Remove nurl
-     *
-     * @param \AppBundle\Entity\Nurl $nurl
-     */
-    public function removeNurl(Nurl $nurl)
-    {
-        $this->nurls->removeElement($nurl);
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getNurls()
-    {
-        return $this->nurls;
-    }
-
-    /**
-     * @param mixed $nurls
-     */
-    public function setNurls($nurls)
-    {
-        $this->nurls = $nurls;
-    }
     /**
      * @var int
      *
