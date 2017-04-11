@@ -22,12 +22,8 @@
                 <td>{{ nurl.source }}</td>
             </tr>
             <tr>
-                <th>Created</th>
-                <td>{% if nurl.created %}{{ nurl.created|date('Y-m-d H:i:s') }}{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Lastedited</th>
-                <td>{% if nurl.lastEdited %}{{ nurl.lastEdited|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <th>Note</th>
+                <td>{{ nurl.note }}</td>
             </tr>
         </tbody>
     </table>
@@ -43,6 +39,11 @@
             {{ form_start(delete_form) }}
                 <input type="submit" value="Delete">
             {{ form_end(delete_form) }}
+        </li>
+        <li>
+            {{ form_start(add_to_collection_form) }}
+            <input type="submit" value="Add To a Collection">
+            {{ form_end(add_to_collection_form) }}
         </li>
     </ul>
 {% endblock %}

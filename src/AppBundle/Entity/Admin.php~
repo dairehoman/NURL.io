@@ -121,7 +121,7 @@ class Admin
      *
      * @param string $username
      *
-     * @return User
+     * @return Admin
      */
     public function setUsername($username)
     {
@@ -145,7 +145,7 @@ class Admin
      *
      * @param string $password
      *
-     * @return User
+     * @return Admin
      */
     public function setPassword($password)
     {
@@ -169,7 +169,7 @@ class Admin
      *
      * @param string $role
      *
-     * @return User
+     * @return Admin
      */
     public function setRole($role)
     {
@@ -193,7 +193,7 @@ class Admin
      *
      * @param string $profilePic
      *
-     * @return User
+     * @return Admin
      */
     public function setProfilePic($profilePic)
     {
@@ -217,7 +217,7 @@ class Admin
      *
      * @param integer $numNurlsCreated
      *
-     * @return User
+     * @return Admin
      */
     public function setNumNurlsCreated($numNurlsCreated)
     {
@@ -241,7 +241,7 @@ class Admin
      *
      * @param integer $numNotesCreated
      *
-     * @return User
+     * @return Admin
      */
     public function setNumNotesCreated($numNotesCreated)
     {
@@ -265,7 +265,7 @@ class Admin
      *
      * @param \DateTime $dateMemberSince
      *
-     * @return User
+     * @return Admin
      */
     public function setDateMemberSince($dateMemberSince)
     {
@@ -289,7 +289,7 @@ class Admin
      *
      * @param string $bio
      *
-     * @return User
+     * @return Admin
      */
     public function setBio($bio)
     {
@@ -313,7 +313,7 @@ class Admin
      *
      * @param string $college
      *
-     * @return User
+     * @return Admin
      */
     public function setCollege($college)
     {
@@ -337,7 +337,7 @@ class Admin
      *
      * @param string $company
      *
-     * @return User
+     * @return Admin
      */
     public function setCompany($company)
     {
@@ -361,7 +361,7 @@ class Admin
      *
      * @param string $interests
      *
-     * @return User
+     * @return Admin
      */
     public function setInterests($interests)
     {
@@ -385,7 +385,7 @@ class Admin
      *
      * @param boolean $isPrivate
      *
-     * @return User
+     * @return Admin
      */
     public function setIsPrivate($isPrivate)
     {

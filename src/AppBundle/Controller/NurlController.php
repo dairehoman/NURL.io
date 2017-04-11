@@ -2,10 +2,12 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Collection;
 use AppBundle\Entity\Nurl;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Nurl controller.
@@ -45,6 +47,10 @@ class NurlController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $user = $this->getUser();
+            $collection = $form["collection"]->getData();
+            $nurl->setAuthor($user);
+            $nurl->addCollection($collection);
             $em->persist($nurl);
             $em->flush();
 
@@ -66,10 +72,12 @@ class NurlController extends Controller
     public function showAction(Nurl $nurl)
     {
         $deleteForm = $this->createDeleteForm($nurl);
-
+        $addToCollectionForm = $this->createAddToCollectionForm($nurl);
         return $this->render('nurl/show.html.twig', array(
             'nurl' => $nurl,
             'delete_form' => $deleteForm->createView(),
+            'add_to_collection_form'=>$addToCollectionForm->createView(),
+
         ));
     }
 
@@ -97,6 +105,32 @@ class NurlController extends Controller
             'delete_form' => $deleteForm->createView(),
         ));
     }
+//--------------------------------------------------------------------------------------------
+    /**
+     * Creates a route to add a Nurl to a Collection
+     *
+     * @Route("/{id}/add/", name="nurl_add_to_collection")
+     * @Method({"GET", "POST"})
+     */
+    public function addToCollectionAction(Request $request, Nurl $nurl)
+    {
+        $addToCollectionForm = $this->createAddToCollectionForm($nurl);
+        $addToCollectionForm->handleRequest($request);
+
+        if ($addToCollectionForm->isSubmitted() && $addToCollectionForm->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('home');
+        }
+
+        return $this->render('nurl/edit.html.twig', array(
+            'nurl' => $nurl,
+            'edit_form' => $addToCollectionForm->createView(),
+            'delete_form' => $addToCollectionForm->createView(),
+            'add_to_collection_form'=>$addToCollectionForm->createView(),
+        ));
+    }
+//--------------------------------------------------------------------------------------------
 
     /**
      * Deletes a nurl entity.
@@ -132,5 +166,20 @@ class NurlController extends Controller
             ->setMethod('DELETE')
             ->getForm()
         ;
+    }
+
+    /**
+     * Creates a form to ADD a nurl entity TO A COLLECTION.
+     *
+     * @param Nurl $nurl
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createAddToCollectionForm(Nurl $nurl)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('nurl_add_to_collection', array('id' => $nurl->getId())))
+            ->setMethod('POST')
+            ->getForm()
+            ;
     }
 }

@@ -1,24 +1,18 @@
 
 security:
+    role_hierarchy:
+        ROLE_ADMIN: [ROLE_MODERATOR, ROLE_ALLOWED_TO_SWITCH]
+        ROLE_MODERATOR: [ROLE_USER, ROLE_ALLOWED_TO_SWITCH]
 
     encoders:
         AppBundle\Entity\User:
             algorithm: bcrypt
-            cost: 12
 
     providers:
-        in_memory:
-            memory:
-                users:
-                    user:
-                        password: $2y$12$xLgPXKb54v3Ysr9KnaDlAecucOh7tDwe6G.RnMjxIy5ge95SL951K
-                        roles: 'ROLE_USER'
-                    admin:
-                        password: $2y$12$Xo5OK3.k.sdJRDHLMUnGc.kLSX7eIV0IeIiF/pbSyDQNEMJtjfz6W
-                        roles: 'ROLE_ADMIN'
-                    moderator:
-                        password: $2y$12$Vnzp.ARM.Urw6XTyCoTr1OzFj.1uRW5yePNYeIyk4mLIyi35.W2YO
-                        roles: 'ROLE_MODERATOR'
+        our_db_provider:
+            entity:
+                class: AppBundle:User
+                property: username
 
     firewalls:
         dev:

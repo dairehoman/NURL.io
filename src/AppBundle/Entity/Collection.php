@@ -14,60 +14,6 @@ use Doctrine\ORM\Mapping as ORM;
 class Collection
 {
     /**
-     * Many Collections have Many Nurls.
-     * @var \AppBundle\Entity\Nurl
-     * @ORM\ManyToMany(targetEntity="Nurl")
-     */
-    private $nurls;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->nurls = new ArrayCollection();
-    }
-
-    /**
-     * Add nurl
-     *
-     * @param \AppBundle\Entity\Nurl $nurl
-     *
-     * @return Collection
-     */
-    public function addNurl(Nurl $nurl)
-    {
-        $this->nurls[] = $nurl;
-
-        return $this;
-    }
-
-    /**
-     * Remove nurl
-     *
-     * @param \AppBundle\Entity\Nurl $nurl
-     */
-    public function removeNurl(Nurl $nurl)
-    {
-        $this->nurls->removeElement($nurl);
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getNurls()
-    {
-        return $this->nurls;
-    }
-
-    /**
-     * @param mixed $nurls
-     */
-    public function setNurls($nurls)
-    {
-        $this->nurls = $nurls;
-    }
-    /**
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
@@ -90,6 +36,20 @@ class Collection
      */
     private $description;
 
+    /**
+     * Many Collections have One Author.
+     *
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="collections")
+     * @ORM\JoinColumn(name="author_id", referencedColumnName="id", nullable=false)
+     */
+    private $author;
+
+    /**
+     * Many Collections have Many Nurls.
+     * @ORM\ManyToMany(targetEntity="Nurl", mappedBy="collections")
+     */
+    private $nurls;
+
 
     /**
      * Get id
@@ -99,6 +59,15 @@ class Collection
     public function getId()
     {
         return $this->id;
+    }
+
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->nurls = new ArrayCollection();
     }
 
     /**
@@ -147,5 +116,63 @@ class Collection
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * Set author
+     *
+     * @param \AppBundle\Entity\User $author
+     *
+     * @return Collection
+     */
+    public function setAuthor(User $author)
+    {
+        $this->author = $author;
+
+        return $this;
+    }
+
+    /**
+     * Get author
+     *
+     * @return \AppBundle\Entity\User
+     */
+    public function getAuthor()
+    {
+        return $this->author;
+    }
+
+    /**
+     * Add nurl
+     *
+     * @param \AppBundle\Entity\Nurl $nurl
+     *
+     * @return Collection
+     */
+    public function addNurl(Nurl $nurl)
+    {
+        $this->nurls[] = $nurl;
+
+        return $this;
+    }
+
+    /**
+     * Remove nurl
+     *
+     * @param \AppBundle\Entity\Nurl $nurl
+     */
+    public function removeNurl(Nurl $nurl)
+    {
+        $this->nurls->removeElement($nurl);
+    }
+
+    /**
+     * Get nurls
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getNurls()
+    {
+        return $this->nurls;
     }
 }

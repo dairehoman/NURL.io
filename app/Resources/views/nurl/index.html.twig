@@ -10,8 +10,7 @@
                 <th>Title</th>
                 <th>Link</th>
                 <th>Source</th>
-                <th>Created</th>
-                <th>Lastedited</th>
+                <th>Note</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -22,8 +21,7 @@
                 <td>{{ nurl.title }}</td>
                 <td>{{ nurl.link }}</td>
                 <td>{{ nurl.source }}</td>
-                <td>{% if nurl.created %}{{ nurl.created|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{% if nurl.lastEdited %}{{ nurl.lastEdited|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ nurl.note }}</td>
                 <td>
                     <ul>
                         <li>

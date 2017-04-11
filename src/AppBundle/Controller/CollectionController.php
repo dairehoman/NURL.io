@@ -45,6 +45,8 @@ class CollectionController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $user = $this->getUser();
+            $collection->setAuthor($user);
             $em->persist($collection);
             $em->flush();
 

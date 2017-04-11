@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -14,28 +15,19 @@ class Nurl
 {
 
     /**
-     * Many Nurls have One User.
-     * @var \AppBundle\Entity\User
+     * Many Nurls have One Author.
+     *
      * @ORM\ManyToOne(targetEntity="User", inversedBy="nurls")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable = false)
+     * @ORM\JoinColumn(name="author_id", referencedColumnName="id", nullable=false)
      */
-    private $user;
+    private $author;
 
     /**
-     * @return mixed
+     * Many Nurls have Many Collections.
+     * @ORM\ManyToMany(targetEntity="Collection", inversedBy="nurls")
+     * @ORM\JoinTable(name="nurls_collections")
      */
-    public function getUser()
-    {
-        return $this->user;
-    }
-
-    /**
-     * @param mixed $user
-     */
-    public function setUser($user)
-    {
-        $this->user = $user;
-    }
+    private $collections;
 
     /**
      * @var int
@@ -68,18 +60,11 @@ class Nurl
     private $source;
 
     /**
-     * @var \DateTime
+     * @var string
      *
-     * @ORM\Column(name="created", type="datetime")
+     * @ORM\Column(name="note", type="string", length=255)
      */
-    private $created;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="lastEdited", type="datetime")
-     */
-    private $lastEdited;
+    private $note;
 
 
     /**
@@ -164,51 +149,96 @@ class Nurl
         return $this->source;
     }
 
+
     /**
-     * Set created
+     * Set note
      *
-     * @param \DateTime $created
+     * @param string $note
      *
      * @return Nurl
      */
-    public function setCreated($created)
+    public function setNote($note)
     {
-        $this->created = $created;
+        $this->note = $note;
 
         return $this;
     }
 
     /**
-     * Get created
+     * Get note
      *
-     * @return \DateTime
+     * @return string
      */
-    public function getCreated()
+    public function getNote()
     {
-        return $this->created;
+        return $this->note;
     }
 
     /**
-     * Set lastEdited
+     * Set author
      *
-     * @param \DateTime $lastEdited
+     * @param \AppBundle\Entity\User $author
      *
      * @return Nurl
      */
-    public function setLastEdited($lastEdited)
+    public function setAuthor($author = null)
     {
-        $this->lastEdited = $lastEdited;
+        $this->author = $author;
 
         return $this;
     }
 
     /**
-     * Get lastEdited
+     * Get author
      *
-     * @return \DateTime
+     * @return \AppBundle\Entity\User
      */
-    public function getLastEdited()
+    public function getAuthor()
     {
-        return $this->lastEdited;
+        return $this->author;
+    }
+
+
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->collections = new ArrayCollection();
+    }
+
+    /**
+     * Add collection
+     *
+     * @param \AppBundle\Entity\Collection $collection
+     *
+     * @return Nurl
+     */
+    public function addCollection(Collection $collection)
+    {
+        $this->collections[] = $collection;
+
+        return $this;
+    }
+
+    /**
+     * Remove collection
+     *
+     * @param \AppBundle\Entity\Collection $collection
+     */
+    public function removeCollection(Collection $collection)
+    {
+        $this->collections->removeElement($collection);
+    }
+
+    /**
+     * Get collections
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCollection()
+    {
+        return $this->collections;
     }
 }

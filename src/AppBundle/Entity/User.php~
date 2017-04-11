@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * User
@@ -11,31 +12,32 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  */
-class User
+class User implements UserInterface, \Serializable
 {
 
     /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->nurls = new ArrayCollection();
+        $this->collections = new ArrayCollection();
+        $this->isActive = true;
+    }
+
+    /**
      * One User has Many Nurls.
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Nurl", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="Nurl", mappedBy="author")
      */
     private $nurls;
 
     /**
-     * @return mixed
+     * One User has Many Collections.
+     * @ORM\OneToMany(targetEntity="Collection", mappedBy="author")
      */
-    public function getNurls()
-    {
-        return $this->nurls;
-    }
+    private $collections;
 
-    /**
-     * @param mixed $nurls
-     */
-    public function setNurls($nurls)
-    {
-        $this->nurls = $nurls;
-    }
-
+    //-------------------------------------------------------------------------
     /**
      * @var int
      *
@@ -62,72 +64,20 @@ class User
     /**
      * @var string
      *
-     * @ORM\Column(name="role", type="string", length=255)
+     * @ORM\Column(name="email", type="string", length=255)
      */
-    private $role;
+    private $email;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="profilePic", type="string", length=255)
+     * @ORM\Column(name="is_active", type="boolean")
      */
-    private $profilePic;
+    private $isActive;
+
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="numNurlsCreated", type="integer")
+     * @ORM\Column(type="json_array")
      */
-    private $numNurlsCreated;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="numNotesCreated", type="integer")
-     */
-    private $numNotesCreated;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="dateMemberSince", type="date")
-     */
-    private $dateMemberSince;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="bio", type="string", length=255)
-     */
-    private $bio;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="college", type="string", length=255)
-     */
-    private $college;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="company", type="string", length=255)
-     */
-    private $company;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="interests", type="string", length=255)
-     */
-    private $interests;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="isPrivate", type="boolean")
-     */
-    private $isPrivate;
+    private $roles = [];
 
 
     /**
@@ -188,252 +138,6 @@ class User
         return $this->password;
     }
 
-    /**
-     * Set role
-     *
-     * @param string $role
-     *
-     * @return User
-     */
-    public function setRole($role)
-    {
-        $this->role = $role;
-
-        return $this;
-    }
-
-    /**
-     * Get role
-     *
-     * @return string
-     */
-    public function getRole()
-    {
-        return $this->role;
-    }
-
-    /**
-     * Set profilePic
-     *
-     * @param string $profilePic
-     *
-     * @return User
-     */
-    public function setProfilePic($profilePic)
-    {
-        $this->profilePic = $profilePic;
-
-        return $this;
-    }
-
-    /**
-     * Get profilePic
-     *
-     * @return string
-     */
-    public function getProfilePic()
-    {
-        return $this->profilePic;
-    }
-
-    /**
-     * Set numNurlsCreated
-     *
-     * @param integer $numNurlsCreated
-     *
-     * @return User
-     */
-    public function setNumNurlsCreated($numNurlsCreated)
-    {
-        $this->numNurlsCreated = $numNurlsCreated;
-
-        return $this;
-    }
-
-    /**
-     * Get numNurlsCreated
-     *
-     * @return int
-     */
-    public function getNumNurlsCreated()
-    {
-        return $this->numNurlsCreated;
-    }
-
-    /**
-     * Set numNotesCreated
-     *
-     * @param integer $numNotesCreated
-     *
-     * @return User
-     */
-    public function setNumNotesCreated($numNotesCreated)
-    {
-        $this->numNotesCreated = $numNotesCreated;
-
-        return $this;
-    }
-
-    /**
-     * Get numNotesCreated
-     *
-     * @return int
-     */
-    public function getNumNotesCreated()
-    {
-        return $this->numNotesCreated;
-    }
-
-    /**
-     * Set dateMemberSince
-     *
-     * @param \DateTime $dateMemberSince
-     *
-     * @return User
-     */
-    public function setDateMemberSince($dateMemberSince)
-    {
-        $this->dateMemberSince = $dateMemberSince;
-
-        return $this;
-    }
-
-    /**
-     * Get dateMemberSince
-     *
-     * @return \DateTime
-     */
-    public function getDateMemberSince()
-    {
-        return $this->dateMemberSince;
-    }
-
-    /**
-     * Set bio
-     *
-     * @param string $bio
-     *
-     * @return User
-     */
-    public function setBio($bio)
-    {
-        $this->bio = $bio;
-
-        return $this;
-    }
-
-    /**
-     * Get bio
-     *
-     * @return string
-     */
-    public function getBio()
-    {
-        return $this->bio;
-    }
-
-    /**
-     * Set college
-     *
-     * @param string $college
-     *
-     * @return User
-     */
-    public function setCollege($college)
-    {
-        $this->college = $college;
-
-        return $this;
-    }
-
-    /**
-     * Get college
-     *
-     * @return string
-     */
-    public function getCollege()
-    {
-        return $this->college;
-    }
-
-    /**
-     * Set company
-     *
-     * @param string $company
-     *
-     * @return User
-     */
-    public function setCompany($company)
-    {
-        $this->company = $company;
-
-        return $this;
-    }
-
-    /**
-     * Get company
-     *
-     * @return string
-     */
-    public function getCompany()
-    {
-        return $this->company;
-    }
-
-    /**
-     * Set interests
-     *
-     * @param string $interests
-     *
-     * @return User
-     */
-    public function setInterests($interests)
-    {
-        $this->interests = $interests;
-
-        return $this;
-    }
-
-    /**
-     * Get interests
-     *
-     * @return string
-     */
-    public function getInterests()
-    {
-        return $this->interests;
-    }
-
-    /**
-     * Set isPrivate
-     *
-     * @param boolean $isPrivate
-     *
-     * @return User
-     */
-    public function setIsPrivate($isPrivate)
-    {
-        $this->isPrivate = $isPrivate;
-
-        return $this;
-    }
-
-    /**
-     * Get isPrivate
-     *
-     * @return bool
-     */
-    public function getIsPrivate()
-    {
-        return $this->isPrivate;
-    }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->nurls = new ArrayCollection();
-    }
 
     /**
      * Add nurl
@@ -457,5 +161,139 @@ class User
     public function removeNurl(Nurl $nurl)
     {
         $this->nurls->removeElement($nurl);
+    }
+
+    /**
+     * Get nurls
+     *
+     * @return ArrayCollection
+     */
+    public function getNurls()
+    {
+        return $this->nurls;
+    }
+
+    //---------------------------------------------
+
+    public function getRoles()
+    {
+        $roles = $this->roles;
+        return $roles;
+    }
+
+    public function getSalt()
+    {
+
+    }
+
+    public function eraseCredentials()
+    {
+
+    }
+
+    /**
+     * @see \Serializable::serialize()
+     */
+    public function serialize()
+    {
+        return serialize(array( $this->id,
+            $this->username, $this->password,
+        ));
+    }
+
+    public function unserialize($serialized)
+    {
+        list(
+            $this->id,
+            $this->username,
+            $this->password
+            ) = unserialize($serialized);
+    }
+
+    /**
+     * Set isActive
+     *
+     * @param boolean $isActive
+     *
+     * @return User
+     */
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    /**
+     * Get isActive
+     *
+     * @return boolean
+     */
+    public function getIsActive()
+    {
+        return $this->isActive;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param mixed $email
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
+
+    /**
+     * Set roles
+     *
+     * @param array $roles
+     *
+     * @return User
+     */
+    public function setRoles($roles)
+    {
+        $this->roles = $roles;
+        return $this;
+    }
+
+    /**
+     * Add collection
+     *
+     * @param \AppBundle\Entity\Collection $collection
+     *
+     * @return User
+     */
+    public function addCollection(\AppBundle\Entity\Collection $collection)
+    {
+        $this->collections[] = $collection;
+
+        return $this;
+    }
+
+    /**
+     * Remove collection
+     *
+     * @param \AppBundle\Entity\Collection $collection
+     */
+    public function removeCollection(\AppBundle\Entity\Collection $collection)
+    {
+        $this->collections->removeElement($collection);
+    }
+
+    /**
+     * Get collections
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCollections()
+    {
+        return $this->collections;
     }
 }

@@ -5,6 +5,7 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class NurlType extends AbstractType
 {
@@ -13,7 +14,15 @@ class NurlType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('title')->add('link')->add('source')->add('created')->add('lastEdited');
+        $builder->add('title')
+            ->add('link')
+            ->add('source')
+            ->add('note')
+            ->add('collection', EntityType::class, [
+            'class' => 'AppBundle:Collection',
+            'choice_label' => 'title',
+            'mapped' => false,
+            ]);
     }
     
     /**
@@ -33,6 +42,4 @@ class NurlType extends AbstractType
     {
         return 'appbundle_nurl';
     }
-
-
 }

@@ -18,44 +18,16 @@
                 <td>{{ user.password }}</td>
             </tr>
             <tr>
-                <th>Role</th>
-                <td>{{ user.role }}</td>
+                <th>Email</th>
+                <td>{{ user.email }}</td>
             </tr>
             <tr>
-                <th>Profilepic</th>
-                <td>{{ user.profilePic }}</td>
+                <th>Isactive</th>
+                <td>{% if user.isActive %}Yes{% else %}No{% endif %}</td>
             </tr>
             <tr>
-                <th>Numnurlscreated</th>
-                <td>{{ user.numNurlsCreated }}</td>
-            </tr>
-            <tr>
-                <th>Numnotescreated</th>
-                <td>{{ user.numNotesCreated }}</td>
-            </tr>
-            <tr>
-                <th>Datemembersince</th>
-                <td>{% if user.dateMemberSince %}{{ user.dateMemberSince|date('Y-m-d') }}{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Bio</th>
-                <td>{{ user.bio }}</td>
-            </tr>
-            <tr>
-                <th>College</th>
-                <td>{{ user.college }}</td>
-            </tr>
-            <tr>
-                <th>Company</th>
-                <td>{{ user.company }}</td>
-            </tr>
-            <tr>
-                <th>Interests</th>
-                <td>{{ user.interests }}</td>
-            </tr>
-            <tr>
-                <th>Isprivate</th>
-                <td>{% if user.isPrivate %}Yes{% else %}No{% endif %}</td>
+                <th>Roles</th>
+                <td>{{ user.roles }}</td>
             </tr>
         </tbody>
     </table>

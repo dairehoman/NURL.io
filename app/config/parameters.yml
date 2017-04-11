@@ -6,3 +6,4 @@ parameters:
     mailer_password: null
     secret: ThisTokenIsNotSoSecretChangeIt
     database_path: ../var/data/data.sqlite
+
