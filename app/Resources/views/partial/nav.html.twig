@@ -1,0 +1,10 @@
+{% block nav %}
+<nav>
+    <a href="{{ path('home') }}">Home</a>
+    <a href="{{ path('collection_index') }}">Collections</a>
+    {% if app.user %}
+        <a href="{{ path('nurl_new') }}">Publish</a>
+    {% endif %}
+</nav>
+<hr>
+{% endblock %}

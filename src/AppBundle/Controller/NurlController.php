@@ -42,15 +42,20 @@ class NurlController extends Controller
     public function newAction(Request $request)
     {
         $nurl = new Nurl();
-        $form = $this->createForm('AppBundle\Form\NurlType', $nurl);
+        $form = $this->createForm('AppBundle\Form\NurlType',$nurl);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $user = $this->getUser();
-            $collection = $form["collection"]->getData();
+            if($form["collection"]->getData() != null)
+            {
+                $collection = $form["collection"]->getData();
+                $nurl->addCollection($collection);
+            }
+            $nurl->setDateCreated(new \DateTime());
+            $nurl->setDateLastEdited(new \DateTime());
             $nurl->setAuthor($user);
-            $nurl->addCollection($collection);
             $em->persist($nurl);
             $em->flush();
 
@@ -92,10 +97,10 @@ class NurlController extends Controller
         $deleteForm = $this->createDeleteForm($nurl);
         $editForm = $this->createForm('AppBundle\Form\NurlType', $nurl);
         $editForm->handleRequest($request);
+        $nurl->setDateLastEdited(new \DateTime());
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
             return $this->redirectToRoute('nurl_edit', array('id' => $nurl->getId()));
         }
 

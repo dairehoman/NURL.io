@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -45,7 +46,7 @@ class Collection
 
     /**
      * Many Collections have Many Nurls.
-     * @ORM\ManyToMany(targetEntity="Nurl", mappedBy="$collections")
+     * @ORM\ManyToMany(targetEntity="Nurl", mappedBy="collections")
      */
     private $nurls;
 
@@ -66,7 +67,7 @@ class Collection
      */
     public function __construct()
     {
-        $this->nurls = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->nurls = new ArrayCollection();
     }
 
     /**
@@ -124,7 +125,7 @@ class Collection
      *
      * @return Collection
      */
-    public function setAuthor(\AppBundle\Entity\User $author)
+    public function setAuthor(User $author)
     {
         $this->author = $author;
 
@@ -148,7 +149,7 @@ class Collection
      *
      * @return Collection
      */
-    public function addNurl(\AppBundle\Entity\Nurl $nurl)
+    public function addNurl(Nurl $nurl)
     {
         $this->nurls[] = $nurl;
 
@@ -160,7 +161,7 @@ class Collection
      *
      * @param \AppBundle\Entity\Nurl $nurl
      */
-    public function removeNurl(\AppBundle\Entity\Nurl $nurl)
+    public function removeNurl(Nurl $nurl)
     {
         $this->nurls->removeElement($nurl);
     }

@@ -1,0 +1,52 @@
+{% block header %}
+    {#---------------HTML------------------#}
+    <div class="left_header">
+        <h3 class="site_title">Nurl.io</h3>
+    </div>
+    <div class="right_header">
+        {% if app.user %}
+            <a href="{{ path('logout') }}">Logout</a>
+        {% else %}
+            <a href="{{ path('login') }}">Login</a>
+        {% endif %}
+    </div>
+    <br>
+    <div class="logged_in">
+        {% if app.user %}
+            <hr>
+            <h5 class="logged_in_text">
+                Logged in as : {{ app.user.username }}
+            </h5>
+        {% else %}
+        {% endif %}
+    </div>
+    <hr>
+    {#---------------HTML------------------#}
+
+    {#---------------CSS-------------------#}
+    <style>
+        .site_title {
+            position:absolute;
+            top:-20px;
+        }
+
+        .logged_in_text {
+            position:absolute;
+            top:25px;
+            right:10px;
+        }
+        .left_header {
+            position:absolute;
+            left:10px;
+        }
+
+        .right_header {
+            position:absolute;
+            right:10px;
+        }
+        .logged_in {
+            height:25px;
+        }
+    </style>
+    {#---------------CSS-------------------#}
+{% endblock %}

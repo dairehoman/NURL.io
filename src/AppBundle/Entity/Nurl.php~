@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -43,6 +44,20 @@ class Nurl
      * @ORM\Column(name="title", type="string", length=255)
      */
     private $title;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="date_created", type="datetime", length=255)
+     */
+    private $dateCreated;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="date_last_edited", type="datetime", length=255)
+     */
+    private $dateLastEdited;
 
     /**
      * @var string
@@ -197,27 +212,81 @@ class Nurl
         return $this->author;
     }
 
+
+
     /**
-     * Set collection
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->collections = new ArrayCollection();
+    }
+
+    /**
+     * Add collection
      *
      * @param \AppBundle\Entity\Collection $collection
      *
      * @return Nurl
      */
-    public function setCollection(\AppBundle\Entity\Collection $collection)
+    public function addCollection(Collection $collection)
     {
-        $this->collection = $collection;
+        $this->collections[] = $collection;
 
         return $this;
     }
 
     /**
-     * Get collection
+     * Remove collection
      *
-     * @return \AppBundle\Entity\Collection
+     * @param \AppBundle\Entity\Collection $collection
+     */
+    public function removeCollection(Collection $collection)
+    {
+        $this->collections->removeElement($collection);
+    }
+
+    /**
+     * Get collections
+     *
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getCollection()
     {
-        return $this->collection;
+        return $this->collections;
+    }
+
+    /**
+     * Set dateCreated
+     *
+     * @param \DateTime $dateCreated
+     *
+     * @return Nurl
+     */
+    public function setDateCreated($dateCreated)
+    {
+        $this->dateCreated = $dateCreated;
+
+        return $this;
+    }
+
+    /**
+     * Get dateCreated
+     *
+     * @return \DateTime
+     */
+    public function getDateCreated()
+    {
+        return $this->dateCreated;
+    }
+
+    /**
+     * Get collections
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCollections()
+    {
+        return $this->collections;
     }
 }

@@ -48,6 +48,20 @@ class Nurl
     /**
      * @var string
      *
+     * @ORM\Column(name="date_created", type="datetime", length=255)
+     */
+    private $dateCreated;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="date_last_edited", type="datetime", length=255)
+     */
+    private $dateLastEdited;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="link", type="string", length=255)
      */
     private $link;
@@ -240,5 +254,63 @@ class Nurl
     public function getCollection()
     {
         return $this->collections;
+    }
+
+    /**
+     * Set dateCreated
+     *
+     * @param \DateTime $dateCreated
+     *
+     * @return Nurl
+     */
+    public function setDateCreated($dateCreated)
+    {
+        $this->dateCreated = $dateCreated;
+
+        return $this;
+    }
+
+    /**
+     * Get dateCreated
+     *
+     * @return \DateTime
+     */
+    public function getDateCreated()
+    {
+        return $this->dateCreated;
+    }
+
+    /**
+     * Get collections
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCollections()
+    {
+        return $this->collections;
+    }
+
+    /**
+     * Set dateLastEdited
+     *
+     * @param \DateTime $dateLastEdited
+     *
+     * @return Nurl
+     */
+    public function setDateLastEdited($dateLastEdited)
+    {
+        $this->dateLastEdited = $dateLastEdited;
+
+        return $this;
+    }
+
+    /**
+     * Get dateLastEdited
+     *
+     * @return \DateTime
+     */
+    public function getDateLastEdited()
+    {
+        return $this->dateLastEdited;
     }
 }
