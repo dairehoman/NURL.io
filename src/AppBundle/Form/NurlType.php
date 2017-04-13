@@ -19,7 +19,9 @@ class NurlType extends AbstractType
         $builder->add('title')
                 ->add('link')
                 ->add('source')
-                ->add('note');
+                ->add('note')
+                ->add('isPublic')
+                ->add('numVotes');
         $builder->add('collection', EntityType::class, [
             'class' => 'AppBundle:Collection',
             'choice_label' => 'title',

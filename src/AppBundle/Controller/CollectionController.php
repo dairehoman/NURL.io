@@ -24,11 +24,12 @@ class CollectionController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-
+        $nurls = $em->getRepository('AppBundle:Nurl')->findAll();
         $collections = $em->getRepository('AppBundle:Collection')->findAll();
 
         return $this->render('collection/index.html.twig', array(
             'collections' => $collections,
+            'nurls' => $nurls,
         ));
     }
 
@@ -48,6 +49,8 @@ class CollectionController extends Controller
             $em = $this->getDoctrine()->getManager();
             $user = $this->getUser();
             $collection->setAuthor($user);
+            $collection->setDateCreated(new \DateTime());
+            $collection->setDateLastEdited(new \DateTime());
             $em->persist($collection);
             $em->flush();
 

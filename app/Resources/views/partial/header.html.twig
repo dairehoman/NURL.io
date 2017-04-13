@@ -1,23 +1,22 @@
 {% block header %}
     {#---------------HTML------------------#}
     <div class="left_header">
-        <h3 class="site_title">Nurl.io</h3>
+        <h2 class="site_title">Nurl.io</h2>
     </div>
+    <hr>
+
+    <nav class="main_nav">
+        <hr>
+        <a href="{{ path('pub_nurl') }}">Public Nurls</a>
+        |
+        <a href="{{ path('pub_collection') }}">Public Collections</a>
+
+    </nav>
     <div class="right_header">
         {% if app.user %}
-            <a href="{{ path('logout') }}">Logout</a>
+            <a  class="log" href="{{ path('logout') }}">Logout</a>
         {% else %}
-            <a href="{{ path('login') }}">Login</a>
-        {% endif %}
-    </div>
-    <br>
-    <div class="logged_in">
-        {% if app.user %}
-            <hr>
-            <h5 class="logged_in_text">
-                Logged in as : {{ app.user.username }}
-            </h5>
-        {% else %}
+            <a class="log" href="{{ path('login') }}">Login</a>
         {% endif %}
     </div>
     <hr>
@@ -25,16 +24,14 @@
 
     {#---------------CSS-------------------#}
     <style>
+        .main_nav {
+            padding-top: 2rem;
+        }
         .site_title {
             position:absolute;
-            top:-20px;
+            top:-15px;
         }
 
-        .logged_in_text {
-            position:absolute;
-            top:25px;
-            right:10px;
-        }
         .left_header {
             position:absolute;
             left:10px;
@@ -44,9 +41,13 @@
             position:absolute;
             right:10px;
         }
-        .logged_in {
-            height:25px;
+
+        .log {
+            position:absolute;
+            top:-80px;
+            right:10px;
         }
+
     </style>
     {#---------------CSS-------------------#}
 {% endblock %}

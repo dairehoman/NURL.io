@@ -1,10 +1,46 @@
 {% block nav %}
-<nav>
-    <a href="{{ path('home') }}">Home</a>
-    <a href="{{ path('collection_index') }}">Collections</a>
-    {% if app.user %}
-        <a href="{{ path('nurl_new') }}">Publish</a>
-    {% endif %}
-</nav>
-<hr>
+    <br>
+    <div class="logged_in">
+        {% if app.user %}
+            <h5 class="logged_in_text">
+                Logged in as : <em>{{ app.user.username }}</em>
+            </h5>
+            <div class="logged_in_nav">
+                <a href="{{ path('nurl_index') }}">My Nurls</a>
+                |
+                <a href="{{ path('collection_index') }}">My Collections</a>
+                |
+                <a href="{{ path('nurl_new') }}">Publish A Nurl</a>
+                |
+                <a href="{{ path('collection_new') }}">Publish A Collection</a>
+            </div>
+        {% else %}
+            <h5 class="logged_in_text">
+                <em>Not logged in.</em>
+            </h5>
+        {% endif %}
+    </div>
+    <hr>
+    {#---------------HTML------------------#}
+
+    {#---------------CSS-------------------#}
+    <style>
+
+
+        .logged_in_text {
+            position:absolute;
+            top:105px;
+            left:10px;
+        }
+
+        .logged_in {
+            height:30px;
+        }
+
+        .logged_in_nav {
+            padding-top: 5px;
+        }
+
+    </style>
+    {#---------------CSS-------------------#}
 {% endblock %}

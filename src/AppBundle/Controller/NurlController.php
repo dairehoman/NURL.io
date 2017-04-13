@@ -98,6 +98,12 @@ class NurlController extends Controller
         $editForm = $this->createForm('AppBundle\Form\NurlType', $nurl);
         $editForm->handleRequest($request);
         $nurl->setDateLastEdited(new \DateTime());
+        $user = $this->getUser();
+        if($editForm["collection"]->getData() != null)
+        {
+            $collection = $editForm["collection"]->getData();
+            $nurl->addCollection($collection);
+        }
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();

@@ -53,6 +53,13 @@ class Nurl
     private $dateCreated;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_public", type="boolean")
+     */
+    private $isPublic;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="date_last_edited", type="datetime", length=255)
@@ -65,6 +72,13 @@ class Nurl
      * @ORM\Column(name="link", type="string", length=255)
      */
     private $link;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="num_votes", type="integer")
+     */
+    private $numVotes;
 
     /**
      * @var string
@@ -312,5 +326,54 @@ class Nurl
     public function getDateLastEdited()
     {
         return $this->dateLastEdited;
+    }
+
+    /**
+     * Set isPublic
+     *
+     * @param boolean $isPublic
+     *
+     * @return Nurl
+     */
+    public function setIsPublic($isPublic)
+    {
+        $this->isPublic = $isPublic;
+
+        return $this;
+    }
+
+    /**
+     * Get isPublic
+     *
+     * @return boolean
+     */
+    public function getIsPublic()
+    {
+        return $this->isPublic;
+    }
+
+
+    /**
+     * Set numVotes
+     *
+     * @param integer $numVotes
+     *
+     * @return Nurl
+     */
+    public function setNumVotes($numVotes)
+    {
+        $this->numVotes = $numVotes;
+
+        return $this;
+    }
+
+    /**
+     * Get numVotes
+     *
+     * @return integer
+     */
+    public function getNumVotes()
+    {
+        return $this->numVotes;
     }
 }

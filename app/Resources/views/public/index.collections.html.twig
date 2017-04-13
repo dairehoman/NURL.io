@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+    {% block pageTitle %}Home - Collections{% endblock %}
+    {% block body %}
+        {% if collections is defined %}
+            {% for collection in collections %}
+                {% if collection.isPublic %}
+                    <u><h3 class="page">Public Collections</h3></u>
+                    <hr>
+                    <div class="collection_holder">
+                        <div class="left_collection">
+                            <tr>
+                                <td><h2><em><u>{{ collection.title }}</u></em></h2></td>
+                                <td><u>Publisher</u>: <a href="{{ path('user_show', { 'id': collection.author.id }) }}">{{ collection.author.username }}</a></td><br>
+                                <td><b>{{ collection.author.username }}</b> says:</td><br>
+                                <td><em>"{{ collection.description }}"</em></td><br><br>
+                            </tr>
+                        </div>
+                        <div class="inner_collection">
+                        {% if nurls is defined %}
+                            {% for nurl in nurls %}
+                                {% if nurl.isPublic %}
+                                <div class="right_collection">
+                                    <tr class="nurl_holder">
+                                        <td><h4 class="coll_nurl_title"><em><u>{{ nurl.title }}</u></em></h4></td>
+                                        <td><u>Publisher</u>: <a href="{{ path('user_show', { 'id': nurl.author.id }) }}">{{ nurl.author.username }}</a></td><br>
+                                        <td><u>URL</u>: <a target="_blank" href="{{ nurl.link }}">{{ nurl.link }}</a></td><br>
+                                        <td><u>Original Source</u>: {{ nurl.source }}</td><br>
+                                        <td><u>Upvotes received</u>: {{ nurl.numVotes }}</td>
+                                    </tr>
+                                </div>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        </div>
+                    </div>
+                    <hr>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        {#---------------CSS-------------------#}
+        <style>
+            .page {
+                text-align: center;
+            }
+            
+            .collection_holder {
+                width:100%;
+            }
+
+            .right_collection {
+                border-style: dashed;
+                border-width: 1px;
+                width:80%;
+                padding: 0.2rem;
+                flex-wrap: wrap;
+            }
+
+            .left_collection {
+                width: 20%;
+            }
+
+            .coll_nurl_title {
+                width:10%;
+            }
+
+            .inner_collection {
+                display:flex;
+            }
+
+        </style>
+        {#---------------CSS-------------------#}
+    {% endblock %}

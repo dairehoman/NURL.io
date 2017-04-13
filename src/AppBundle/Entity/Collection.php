@@ -32,15 +32,36 @@ class Collection
     /**
      * @var string
      *
+     * @ORM\Column(name="date_created", type="datetime", length=255)
+     */
+    private $dateCreated;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_public", type="boolean")
+     */
+    private $isPublic;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="date_last_edited", type="datetime", length=255)
+     */
+    private $dateLastEdited;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="description", type="string", length=255)
      */
     private $description;
 
     /**
-     * Many Collections have One Author.
+     * Many Collections have Many Authors.
      *
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="collections")
-     * @ORM\JoinColumn(name="author_id", referencedColumnName="id", nullable=false)
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="collections")
+     * @ORM\JoinTable(name="users_collections")
      */
     private $author;
 
@@ -174,5 +195,77 @@ class Collection
     public function getNurls()
     {
         return $this->nurls;
+    }
+
+    /**
+     * Set dateCreated
+     *
+     * @param \DateTime $dateCreated
+     *
+     * @return Collection
+     */
+    public function setDateCreated($dateCreated)
+    {
+        $this->dateCreated = $dateCreated;
+
+        return $this;
+    }
+
+    /**
+     * Get dateCreated
+     *
+     * @return \DateTime
+     */
+    public function getDateCreated()
+    {
+        return $this->dateCreated;
+    }
+
+    /**
+     * Set isPublic
+     *
+     * @param boolean $isPublic
+     *
+     * @return Collection
+     */
+    public function setIsPublic($isPublic)
+    {
+        $this->isPublic = $isPublic;
+
+        return $this;
+    }
+
+    /**
+     * Get isPublic
+     *
+     * @return boolean
+     */
+    public function getIsPublic()
+    {
+        return $this->isPublic;
+    }
+
+    /**
+     * Set dateLastEdited
+     *
+     * @param \DateTime $dateLastEdited
+     *
+     * @return Collection
+     */
+    public function setDateLastEdited($dateLastEdited)
+    {
+        $this->dateLastEdited = $dateLastEdited;
+
+        return $this;
+    }
+
+    /**
+     * Get dateLastEdited
+     *
+     * @return \DateTime
+     */
+    public function getDateLastEdited()
+    {
+        return $this->dateLastEdited;
     }
 }

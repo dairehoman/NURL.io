@@ -13,7 +13,7 @@ class CollectionType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('title')->add('description');
+        $builder->add('title')->add('description')->add('isPublic');
     }
     
     /**

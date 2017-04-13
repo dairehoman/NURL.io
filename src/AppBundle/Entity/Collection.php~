@@ -32,6 +32,27 @@ class Collection
     /**
      * @var string
      *
+     * @ORM\Column(name="date_created", type="datetime", length=255)
+     */
+    private $dateCreated;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_public", type="boolean")
+     */
+    private $isPublic;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="date_last_edited", type="datetime", length=255)
+     */
+    private $dateLastEdited;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="description", type="string", length=255)
      */
     private $description;
