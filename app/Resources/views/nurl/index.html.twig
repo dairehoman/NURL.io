@@ -19,9 +19,6 @@
                     <td><u>Upvotes received</u>: {{ nurl.numVotes }}</td>
                     <td>
                         <ul>
-                            {#<li>#}
-                                {#<a href="{{ path('nurl_show', { 'id': nurl.id }) }}">show</a>#}
-                            {#</li>#}
                             <li>
                                 <a href="{{ path('nurl_edit', { 'id': nurl.id }) }}">edit</a>
                             </li>

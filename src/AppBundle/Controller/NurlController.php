@@ -42,7 +42,7 @@ class NurlController extends Controller
     public function newAction(Request $request)
     {
         $nurl = new Nurl();
-        $form = $this->createForm('AppBundle\Form\NurlType',$nurl);
+        $form = $this->createForm('AppBundle\Form\NurlType',$nurl, array('user' => $this->getUser()));
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

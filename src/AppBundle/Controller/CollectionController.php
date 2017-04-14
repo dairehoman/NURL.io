@@ -93,7 +93,6 @@ class CollectionController extends Controller
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
             return $this->redirectToRoute('collection_edit', array('id' => $collection->getId()));
         }
 

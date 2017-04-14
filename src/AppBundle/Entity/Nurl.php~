@@ -226,8 +226,6 @@ class Nurl
         return $this->author;
     }
 
-
-
     /**
      * Constructor
      */
@@ -287,7 +285,7 @@ class Nurl
     /**
      * Get dateCreated
      *
-     * @return \DateTime
+     * @return string
      */
     public function getDateCreated()
     {
@@ -321,7 +319,7 @@ class Nurl
     /**
      * Get dateLastEdited
      *
-     * @return \DateTime
+     * @return string
      */
     public function getDateLastEdited()
     {
@@ -375,5 +373,19 @@ class Nurl
     public function getNumVotes()
     {
         return $this->numVotes;
+    }
+
+    /**
+     * Set collection
+     *
+     * @param \AppBundle\Entity\Collection $collection
+     *
+     * @return Nurl
+     */
+    public function setCollection( $collection = null)
+    {
+        $this->collection = $collection;
+
+        return $this;
     }
 }

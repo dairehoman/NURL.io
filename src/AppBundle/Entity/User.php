@@ -37,7 +37,6 @@ class User implements UserInterface, \Serializable
      */
     private $collections;
 
-    //-------------------------------------------------------------------------
     /**
      * @var int
      *

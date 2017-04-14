@@ -58,16 +58,17 @@ class Collection
     private $description;
 
     /**
-     * Many Collections have Many Authors.
+     * Many Collections have One Author.
      *
-     * @ORM\ManyToMany(targetEntity="User", inversedBy="collections")
-     * @ORM\JoinTable(name="users_collections")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="collections")
+     * @ORM\JoinColumn(name="author_id", referencedColumnName="id", nullable=false)
      */
     private $author;
 
     /**
-     * Many Collections have Many Nurls.
-     * @ORM\ManyToMany(targetEntity="Nurl", mappedBy="collections")
+     * Many Collection have Many Nurls.
+     * @ORM\ManyToMany(targetEntity="Nurl", mappedBy="collection")
+     *
      */
     private $nurls;
 
@@ -214,7 +215,7 @@ class Collection
     /**
      * Get dateCreated
      *
-     * @return \DateTime
+     * @return string
      */
     public function getDateCreated()
     {
@@ -262,10 +263,34 @@ class Collection
     /**
      * Get dateLastEdited
      *
-     * @return \DateTime
+     * @return string
      */
     public function getDateLastEdited()
     {
         return $this->dateLastEdited;
+    }
+
+    /**
+     * Add author
+     *
+     * @param \AppBundle\Entity\User $author
+     *
+     * @return Collection
+     */
+    public function addAuthor(User $author)
+    {
+        $this->author[] = $author;
+
+        return $this;
+    }
+
+    /**
+     * Remove author
+     *
+     * @param User $author
+     */
+    public function removeAuthor(User $author)
+    {
+        $this->author->removeElement($author);
     }
 }
