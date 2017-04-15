@@ -22,10 +22,14 @@ class Nurl
      */
     private $author;
 
+
     /**
-     * Many Nurls have Many Collections.
-     * @ORM\ManyToMany(targetEntity="Collection", inversedBy="nurls")
-     * @ORM\JoinTable(name="nurls_collections")
+     * Many User have Many Phonenumbers.
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Collection")
+     * @ORM\JoinTable(name="nurls_collections",
+     *      joinColumns={@ORM\JoinColumn(name="nurl_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="collection_id", referencedColumnName="id")}
+     *      )
      */
     private $collections;
 

@@ -14,9 +14,11 @@ class PublicController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $nurls = $em->getRepository('AppBundle:Nurl')->findAll();
+        $collections = $em->getRepository('AppBundle:Collection')->findAll();
 
         return $this->render('public/index.html.twig', array(
             'nurls' => $nurls,
+            'collections' => $collections,
         ));
     }
 }

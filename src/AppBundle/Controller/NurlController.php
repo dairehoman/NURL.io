@@ -52,6 +52,7 @@ class NurlController extends Controller
             {
                 $collection = $form["collection"]->getData();
                 $nurl->addCollection($collection);
+                $collection->addNurl($nurl);
             }
             $nurl->setDateCreated(new \DateTime());
             $nurl->setDateLastEdited(new \DateTime());

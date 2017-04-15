@@ -2,31 +2,68 @@
 
     {% block pageTitle %}Public Nurls{% endblock %}
     {% block body %}
-        <u><h3 class="page">Public Nurls</h3></u>
-        <hr>
-        {% if nurls is defined %}
-            {% for nurl in nurls %}
-                {% if nurl.isPublic %}
-                    <hr>
-                    <tr>
-                        <td><h2><em><u>{{ nurl.title }}</u></em></h2></td>
-                        <td><u>Publisher</u>: <a href="{{ path('user_show', { 'id': nurl.author.id }) }}">{{ nurl.author.username }}</a></td><br>
-                        <td><u>URL</u>: <a target="_blank" href="{{ nurl.link }}">{{ nurl.link }}</a></td><br>
-                        <td><u>Original Source</u>: {{ nurl.source }}</td><br>
-                        <td><u>Created</u>: {{ nurl.dateCreated | date('Y-m-d H:i:s') }}</td><br>
-                        <td><u>Last Edited</u>: {{ nurl.dateLastEdited | date('Y-m-d H:i:s') }}</td><br><br>
-                        <td><b>{{ nurl.author.username }}</b> says:</td><br>
-                        <td><em>"{{ nurl.note }}"</em></td><br><br>
-                        <td><u>Upvotes received</u>: {{ nurl.numVotes }}</td>
-                    </tr>
-                    <hr>
+        <div class="container">
+            <div class = "left">
+                <u><h3 class="page">Public Nurls</h3></u>
+                <hr>
+                {% if nurls is defined %}
+                    {% for nurl in nurls %}
+                        {% if nurl.isPublic %}
+                            <hr>
+                            <tr>
+                                <td><h2><em><u>{{ nurl.title }}</u></em></h2></td>
+                                <td><u>Publisher</u>: <a href="{{ path('user_show', { 'id': nurl.author.id }) }}">{{ nurl.author.username }}</a></td><br>
+                                <td><u>URL</u>: <a target="_blank" href="{{ nurl.link }}">{{ nurl.link }}</a></td><br>
+                                <td><u>Original Source</u>: {{ nurl.source }}</td><br>
+                                <td><u>Created</u>: {{ nurl.dateCreated | date('Y-m-d H:i:s') }}</td><br>
+                                <td><u>Last Edited</u>: {{ nurl.dateLastEdited | date('Y-m-d H:i:s') }}</td><br><br>
+                                <td><b>{{ nurl.author.username }}</b> says:</td><br>
+                                <td><em>"{{ nurl.note }}"</em></td><br><br>
+                                <td><u>Upvotes received</u>: {{ nurl.numVotes }}</td>
+                            </tr>
+                            <hr>
+                        {% endif %}
+                    {% endfor %}
                 {% endif %}
-            {% endfor %}
-        {% endif %}
+            </div>
+            <div class="right">
+                <u><h3 class="page">Public Collections</h3></u>
+                <hr>
+                {% if collections is defined %}
+                    {% for collection in collections %}
+                        {% if collection.isPublic %}
+                            <tr>
+                                <td><h2><em><u>{{ collection.title }}</u></em></h2></td>
+                                <td><u>Publisher</u>: <a href="{{ path('user_show', { 'id': collection.author.id }) }}">{{ collection.author.username }}</a></td><br>
+                                <td><b>{{ collection.author.username }}</b> says:</td><br>
+                                <td><em>"{{ collection.description }}"</em></td><br><br>
+                            </tr>
+                            <li>
+                                <a href="{{ path('collection_show', { 'id': collection.id }) }}">show</a>
+                            </li>
+                            <hr>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
         {#---------------CSS-------------------#}
         <style>
             .page {
                 text-align: center;
+            }
+            .left {
+                width:50%;
+                border-right: inset;
+                padding: 0.2rem;
+            }
+            .right {
+                width:50%;
+                padding: 0.2rem;
+            }
+
+            .container {
+                display: flex;
             }
 
         </style>

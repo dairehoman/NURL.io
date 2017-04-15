@@ -1,7 +1,6 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Collection</h1>
 
     <table>
         <tbody>
@@ -20,6 +19,22 @@
         </tbody>
     </table>
 
+    <div class="inner_collection">
+    {% if nurls is defined %}
+        {% for nurl in nurls %}
+            <div class="right_collection">
+                <tr class="nurl_holder">
+                    <td><h4 class="coll_nurl_title"><em><u>{{ nurl.title }}</u></em></h4></td>
+                    <td><u>Publisher</u>: <a href="{{ path('user_show', { 'id': nurl.author.id }) }}">{{ nurl.author.username }}</a></td><br>
+                    <td><u>URL</u>: <a target="_blank" href="{{ nurl.link }}">{{ nurl.link }}</a></td><br>
+                    <td><u>Original Source</u>: {{ nurl.source }}</td><br>
+                    <td><u>Upvotes received</u>: {{ nurl.numVotes }}</td>
+                </tr>
+            </div>
+        {% endfor %}
+    {% endif %}
+    </div>
+
     <ul>
         <li>
             <a href="{{ path('collection_index') }}">Back to the list</a>
@@ -33,4 +48,25 @@
             {{ form_end(delete_form) }}
         </li>
     </ul>
+
+    {#---------------CSS-------------------#}
+    <style>
+
+        .right_collection {
+            border-style: dashed;
+            border-width: 1px;
+            width:100%;
+            padding: 0.2rem;
+            flex-wrap: wrap;
+        }
+
+        .coll_nurl_title {
+            width:10%;
+        }
+
+        .inner_collection {
+        }
+
+    </style>
+    {#---------------CSS-------------------#}
 {% endblock %}

@@ -24,8 +24,13 @@ class CollectionController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $nurls = $em->getRepository('AppBundle:Nurl')->findAll();
         $collections = $em->getRepository('AppBundle:Collection')->findAll();
+
+        $nurls = $em->getRepository('AppBundle:Nurl')->createQueryBuilder('nurl')
+            ->leftJoin('nurl.collections', 'collections')
+            ->where('collections =  :collection_id')
+            ->setParameter('collection_id', 1)
+            ->getQuery()->getResult();
 
         return $this->render('collection/index.html.twig', array(
             'collections' => $collections,
@@ -44,9 +49,9 @@ class CollectionController extends Controller
         $collection = new Collection();
         $form = $this->createForm('AppBundle\Form\CollectionType', $collection);
         $form->handleRequest($request);
+        $em = $this->getDoctrine()->getManager();
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
             $user = $this->getUser();
             $collection->setAuthor($user);
             $collection->setDateCreated(new \DateTime());
@@ -61,6 +66,7 @@ class CollectionController extends Controller
             'collection' => $collection,
             'form' => $form->createView(),
         ));
+
     }
 
     /**
@@ -69,12 +75,25 @@ class CollectionController extends Controller
      * @Route("/{id}", name="collection_show")
      * @Method("GET")
      */
-    public function showAction(Collection $collection)
+    public function showAction(Request $request, Collection $collection)
     {
+        $em = $this->getDoctrine()->getManager();
+
+        $routeParams = $request->attributes->get('_route_params');
+        $id = $routeParams['id'];
+
+        $nurls = $em->getRepository('AppBundle:Nurl')->createQueryBuilder('nurl')
+            ->leftJoin('nurl.collections', 'collections')
+            ->where('collections =  :collection_id')
+            ->setParameter('collection_id', $id)
+            ->getQuery()->getResult();
+
+
         $deleteForm = $this->createDeleteForm($collection);
 
         return $this->render('collection/show.html.twig', array(
             'collection' => $collection,
+            'nurls' => $nurls,
             'delete_form' => $deleteForm->createView(),
         ));
     }
