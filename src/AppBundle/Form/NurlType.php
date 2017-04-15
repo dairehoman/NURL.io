@@ -22,8 +22,7 @@ class NurlType extends AbstractType
                 ->add('link')
                 ->add('source')
                 ->add('note')
-                ->add('isPublic')
-                ->add('numVotes');
+                ->add('isPublic');
 
         $builder->add('collection', EntityType::class, [
             'class' => 'AppBundle:Collection',
@@ -36,6 +35,20 @@ class NurlType extends AbstractType
             'mapped' => false,
             'required'=> false,
         ]);
+
+        $builder->add('tags', EntityType::class, [
+            'class' => 'AppBundle:Tag',
+            'choice_label' => 'tagvalue',
+            'query_builder' => function (EntityRepository $er) {
+                return $er->createQueryBuilder('t')
+                    ->where('t.isProposed != true');
+            },
+            'mapped' => false,
+            'required'=> false,
+            'multiple' => true,
+            'expanded' => true,
+            'by_reference'=>false,
+        ]);
     }
     
     /**
@@ -43,10 +56,12 @@ class NurlType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-
         $resolver->setDefaults(array(
             'data_class' => 'AppBundle\Entity\Nurl',
-            'user' => null
+            'user' => null,
+            'attr' => array (
+                'autocomplete' => 'off',
+            )
         ));
     }
 

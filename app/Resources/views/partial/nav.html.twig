@@ -6,21 +6,30 @@
                 Logged in as : <em>{{ app.user.username }}</em>
             </h5>
             <div class="logged_in_nav">
+                &nbsp;&nbsp;
                 <a href="{{ path('nurl_index') }}">My Nurls</a>
-                |
+                &nbsp;&nbsp;|&nbsp;&nbsp;
                 <a href="{{ path('collection_index') }}">My Collections</a>
-                |
+                &nbsp;&nbsp;|&nbsp;&nbsp;
                 <a href="{{ path('nurl_new') }}">Publish A Nurl</a>
-                |
+                &nbsp;&nbsp;|&nbsp;&nbsp;
                 <a href="{{ path('collection_new') }}">Publish A Collection</a>
+                &nbsp;&nbsp;|&nbsp;&nbsp;
+                <a href="{{ path('tag_new') }}">Propose a Tag</a>
+                &nbsp;&nbsp;|&nbsp;&nbsp;
+                {% if is_granted('ROLE_MODERATOR') %}
+                    <a href="{{ path('tag_new') }}">View Proposed Tags</a>
+                    &nbsp;&nbsp;|&nbsp;&nbsp;
+                    <a href="{{ path('tag_new') }}">View Frozen Nurls</a>
+                {% endif %}
             </div>
         {% else %}
             <h5 class="logged_in_text">
                 <em>Not logged in.</em>
             </h5>
         {% endif %}
+        <hr>
     </div>
-    <hr>
     {#---------------HTML------------------#}
 
     {#---------------CSS-------------------#}
@@ -29,8 +38,8 @@
 
         .logged_in_text {
             position:absolute;
-            top:105px;
-            left:10px;
+            top:70px;
+            left:25px;
         }
 
         .logged_in {

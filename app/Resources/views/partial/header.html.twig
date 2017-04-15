@@ -1,13 +1,12 @@
 {% block header %}
     {#---------------HTML------------------#}
     <div class="left_header">
-        <h2 class="site_title">Nurl.io</h2>
+        <a href="{{ path('home') }}"><h2 class="site_title">Nurl.io</h2></a>
     </div>
     <hr>
 
     <nav class="main_nav">
         <hr>
-        <a href="{{ path('home') }}">Home</a>
     </nav>
     <div class="right_header">
         {% if app.user %}
@@ -41,7 +40,7 @@
 
         .log {
             position:absolute;
-            top:-80px;
+            top:-60px;
             right:10px;
         }
 

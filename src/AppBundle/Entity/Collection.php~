@@ -70,7 +70,7 @@ class Collection
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Nurl")
      * @ORM\JoinTable(name="collections_nurls",
      *      joinColumns={@ORM\JoinColumn(name="collection_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="nurl_id", referencedColumnName="id", unique=true)}
+     *      inverseJoinColumns={@ORM\JoinColumn(name="nurl_id", referencedColumnName="id")}
      *      )
      */
     private $nurls;

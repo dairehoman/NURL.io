@@ -48,12 +48,23 @@ class NurlController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $user = $this->getUser();
+
             if($form["collection"]->getData() != null)
             {
                 $collection = $form["collection"]->getData();
                 $nurl->addCollection($collection);
                 $collection->addNurl($nurl);
             }
+
+            if($form["tags"]->getData() != null)
+            {
+                $tags = $form["tags"]->getData();
+                $tagArray = $tags->toArray();
+                foreach ($tagArray as $tag) {
+                    $nurl->addTag($tag);
+                }
+            }
+
             $nurl->setDateCreated(new \DateTime());
             $nurl->setDateLastEdited(new \DateTime());
             $nurl->setAuthor($user);

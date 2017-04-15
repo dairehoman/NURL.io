@@ -22,7 +22,10 @@ class CollectionType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Collection'
+            'data_class' => 'AppBundle\Entity\Collection',
+            'attr' => array (
+                'autocomplete' => 'off',
+            )
         ));
     }
 

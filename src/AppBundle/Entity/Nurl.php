@@ -33,6 +33,17 @@ class Nurl
      */
     private $collections;
 
+
+    /**
+     * Many Nurls have Many Tags.
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Tag")
+     * @ORM\JoinTable(name="nurls_tags",
+     *      joinColumns={@ORM\JoinColumn(name="nurl_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="tag_id", referencedColumnName="id")}
+     *      )
+     */
+    private $tags;
+
     /**
      * @var int
      *
@@ -64,6 +75,13 @@ class Nurl
     private $isPublic;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_reported_against", type="boolean")
+     */
+    private $isReportedAgainst = false;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="date_last_edited", type="datetime", length=255)
@@ -82,7 +100,7 @@ class Nurl
      *
      * @ORM\Column(name="num_votes", type="integer")
      */
-    private $numVotes;
+    private $numVotes = -1;
 
     /**
      * @var string
@@ -97,7 +115,6 @@ class Nurl
      * @ORM\Column(name="note", type="string", length=255)
      */
     private $note;
-
 
     /**
      * Get id
@@ -236,6 +253,7 @@ class Nurl
     public function __construct()
     {
         $this->collections = new ArrayCollection();
+        $this->tags = new ArrayCollection();
     }
 
     /**
@@ -391,5 +409,63 @@ class Nurl
         $this->collection = $collection;
 
         return $this;
+    }
+
+    /**
+     * Set isReportedAgainst
+     *
+     * @param boolean $isReportedAgainst
+     *
+     * @return Nurl
+     */
+    public function setIsReportedAgainst($isReportedAgainst)
+    {
+        $this->isReportedAgainst = $isReportedAgainst;
+
+        return $this;
+    }
+
+    /**
+     * Get isReportedAgainst
+     *
+     * @return boolean
+     */
+    public function getIsReportedAgainst()
+    {
+        return $this->isReportedAgainst;
+    }
+
+    /**
+     * Add tag
+     *
+     * @param \AppBundle\Entity\Tag $tag
+     *
+     * @return Nurl
+     */
+    public function addTag(\AppBundle\Entity\Tag $tag)
+    {
+        $this->tags[] = $tag;
+
+        return $this;
+    }
+
+    /**
+     * Remove tag
+     *
+     * @param \AppBundle\Entity\Tag $tag
+     */
+    public function removeTag(\AppBundle\Entity\Tag $tag)
+    {
+        $this->tags->removeElement($tag);
+    }
+
+    /**
+     * Get tags
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTags()
+    {
+        return $this->tags;
     }
 }

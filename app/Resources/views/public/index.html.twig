@@ -19,7 +19,12 @@
                                 <td><u>Last Edited</u>: {{ nurl.dateLastEdited | date('Y-m-d H:i:s') }}</td><br><br>
                                 <td><b>{{ nurl.author.username }}</b> says:</td><br>
                                 <td><em>"{{ nurl.note }}"</em></td><br><br>
-                                <td><u>Upvotes received</u>: {{ nurl.numVotes }}</td>
+                                <td><u>Upvotes received</u>: {{ nurl.numVotes }}</td><br>
+                                <td><u>Tags: </u>
+                                    {% for tag in nurl.tags %}
+                                        {{ tag.tagvalue }}
+                                    {% endfor %}
+                                </td><br>
                             </tr>
                             <hr>
                         {% endif %}
@@ -32,6 +37,7 @@
                 {% if collections is defined %}
                     {% for collection in collections %}
                         {% if collection.isPublic %}
+                            <hr>
                             <tr>
                                 <td><h2><em><u>{{ collection.title }}</u></em></h2></td>
                                 <td><u>Publisher</u>: <a href="{{ path('user_show', { 'id': collection.author.id }) }}">{{ collection.author.username }}</a></td><br>
@@ -64,6 +70,7 @@
 
             .container {
                 display: flex;
+                padding: 0.2rem;
             }
 
         </style>
