@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-
+<br>
     <table>
         <tbody>
             <tr>
@@ -19,6 +19,7 @@
         </tbody>
     </table>
 
+
     <div class="inner_collection">
     {% if nurls is defined %}
         {% for nurl in nurls %}
@@ -28,7 +29,18 @@
                     <td><u>Publisher</u>: <a href="{{ path('user_show', { 'id': nurl.author.id }) }}">{{ nurl.author.username }}</a></td><br>
                     <td><u>URL</u>: <a target="_blank" href="{{ nurl.link }}">{{ nurl.link }}</a></td><br>
                     <td><u>Original Source</u>: {{ nurl.source }}</td><br>
-                    <td><u>Upvotes received</u>: {{ nurl.numVotes }}</td>
+                    <td><u>Upvotes received</u>:
+                        {% if nurl.numVotes == -1 %}
+                            No votes yet :-(
+                        {% else %}
+                            {{ nurl.numVotes }}
+                        {% endif %}
+                    </td><br>
+                    <td><u>Tags</u>:
+                        {% for tag in nurl.tags %}
+                            {{ tag.tagvalue }}
+                        {% endfor %}
+                    </td><br>
                 </tr>
             </div>
         {% endfor %}

@@ -44,7 +44,7 @@ class Tag
      *
      * @ORM\Column(name="num_votes", type="integer")
      */
-    private $numVotes;
+    private $numVotes = -1;
 
     /**
      * @var boolean
@@ -153,5 +153,29 @@ class Tag
     public function getIsProposed()
     {
         return $this->isProposed;
+    }
+
+    /**
+     * Set numVotes
+     *
+     * @param integer $numVotes
+     *
+     * @return Tag
+     */
+    public function setNumVotes($numVotes)
+    {
+        $this->numVotes = $numVotes;
+
+        return $this;
+    }
+
+    /**
+     * Get numVotes
+     *
+     * @return integer
+     */
+    public function getNumVotes()
+    {
+        return $this->numVotes;
     }
 }

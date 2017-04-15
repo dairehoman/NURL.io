@@ -68,6 +68,20 @@ class User implements UserInterface, \Serializable
     private $email;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_private", type="boolean")
+     */
+    private $isPrivate;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="bio", type="string", length=255)
+     */
+    private $bio;
+
+    /**
      * @ORM\Column(name="is_active", type="boolean")
      */
     private $isActive;
@@ -294,5 +308,29 @@ class User implements UserInterface, \Serializable
     public function getCollections()
     {
         return $this->collections;
+    }
+
+    /**
+     * Set bio
+     *
+     * @param string $bio
+     *
+     * @return User
+     */
+    public function setBio($bio)
+    {
+        $this->bio = $bio;
+
+        return $this;
+    }
+
+    /**
+     * Get bio
+     *
+     * @return string
+     */
+    public function getBio()
+    {
+        return $this->bio;
     }
 }

@@ -34,6 +34,8 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
         $user->setEmail($email);
         $user->setRoles($roles);
         $user->setIsActive(true);
+        $user->setBio("This is a little bit about me....");
+        $user->setIsPrivate(true);
         $encodedPassword = $this->encodePassword($user, $plainPassword);
         $user->setPassword($encodedPassword);
         return $user;

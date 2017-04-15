@@ -13,16 +13,16 @@
 <form action="{{ path('login') }}" method="post">
 
     <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
+           autocomplete="off" value="{{ csrf_token('authenticate') }}"
     >
 
     <p>
         <label for="username">Username:</label>
-        <input type="text" id="username" name="_username" value="{{ last_username }}" />
+        <input type="text" id="username" name="_username" autocomplete="off"  value="{{ last_username }}" />
 
     <p>
         <label for="password">Password:</label>
-        <input type="password" id="password" name="_password" />
+        <input type="password" id="password" autocomplete="off" name="_password" />
 
     <p>
         <button type="submit">login</button>

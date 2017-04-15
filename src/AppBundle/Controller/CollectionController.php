@@ -26,15 +26,9 @@ class CollectionController extends Controller
         $em = $this->getDoctrine()->getManager();
         $collections = $em->getRepository('AppBundle:Collection')->findAll();
 
-        $nurls = $em->getRepository('AppBundle:Nurl')->createQueryBuilder('nurl')
-            ->leftJoin('nurl.collections', 'collections')
-            ->where('collections =  :collection_id')
-            ->setParameter('collection_id', 1)
-            ->getQuery()->getResult();
 
         return $this->render('collection/index.html.twig', array(
             'collections' => $collections,
-            'nurls' => $nurls,
         ));
     }
 
@@ -78,16 +72,13 @@ class CollectionController extends Controller
     public function showAction(Request $request, Collection $collection)
     {
         $em = $this->getDoctrine()->getManager();
-
-        $routeParams = $request->attributes->get('_route_params');
-        $id = $routeParams['id'];
+        $collectionId = $request->get('id');
 
         $nurls = $em->getRepository('AppBundle:Nurl')->createQueryBuilder('nurl')
             ->leftJoin('nurl.collections', 'collections')
             ->where('collections =  :collection_id')
-            ->setParameter('collection_id', $id)
+            ->setParameter('collection_id',  $collectionId )
             ->getQuery()->getResult();
-
 
         $deleteForm = $this->createDeleteForm($collection);
 

@@ -40,12 +40,13 @@ class TagController extends Controller
     public function newAction(Request $request)
     {
         $tag = new Tag();
+
         $form = $this->createForm('AppBundle\Form\TagType', $tag);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $tag->setIsProposed(false);
+            $tag->setIsProposed(true);
             $em->persist($tag);
             $em->flush();
 
@@ -67,10 +68,14 @@ class TagController extends Controller
     public function showAction(Tag $tag)
     {
         $deleteForm = $this->createDeleteForm($tag);
+        $tagUpVoteForm = $this->createUpVoteForm($tag);
+        $tagDownVoteForm = $this->createDownVoteForm($tag);
 
         return $this->render('tag/show.html.twig', array(
             'tag' => $tag,
             'delete_form' => $deleteForm->createView(),
+            'tag_upvote' => $tagUpVoteForm->createView(),
+            'tag_downvote' => $tagDownVoteForm->createView()
         ));
     }
 
@@ -119,6 +124,64 @@ class TagController extends Controller
         return $this->redirectToRoute('tag_index');
     }
 
+    //---------------------------------------------------------------
+    /**
+     * Upvotes a tag entity.
+     *
+     * @Route("/{id}/upvote", name="tag_upvote")
+     * @Method("PUT")
+     */
+    public function upVoteAction(Request $request, Tag $tag)
+    {
+        $form = $this->createUpVoteForm($tag);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            if($tag->getNumVotes() == -1)
+            {
+                $tag->setNumVotes($tag->getNumVotes() + 2);
+            }
+            else
+            {
+                $tag->setNumVotes($tag->getNumVotes() + 1);
+            }
+            $em->flush();
+        }
+
+        return $this->redirectToRoute('tag_index');
+    }
+    //---------------------------------------------------------------
+
+    //---------------------------------------------------------------
+    /**
+     * downvotes a tag entity.
+     *
+     * @Route("/{id}/downvote", name="tag_downvote")
+     * @Method("PUT")
+     */
+    public function downVoteAction(Request $request, Tag $tag)
+    {
+        $form = $this->createDownVoteForm($tag);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            if($tag->getNumVotes() == -1)
+            {
+                //do nothing
+            }
+            else
+            {
+                $tag->setNumVotes($tag->getNumVotes() - 1);
+            }
+            $em->flush();
+        }
+
+        return $this->redirectToRoute('tag_index');
+    }
+    //---------------------------------------------------------------
+
     /**
      * Creates a form to delete a tag entity.
      *
@@ -133,5 +196,37 @@ class TagController extends Controller
             ->setMethod('DELETE')
             ->getForm()
         ;
+    }
+
+    /**
+     * Creates a form to upvote a tag entity.
+     *
+     * @param Tag $tag The tag entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createUpVoteForm(Tag $tag)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('tag_upvote', array('id' => $tag->getId())))
+            ->setMethod('PUT')
+            ->getForm()
+            ;
+    }
+
+    /**
+     * Creates a form to upvote a tag entity.
+     *
+     * @param Tag $tag The tag entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createDownVoteForm(Tag $tag)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('tag_downvote', array('id' => $tag->getId())))
+            ->setMethod('PUT')
+            ->getForm()
+            ;
     }
 }

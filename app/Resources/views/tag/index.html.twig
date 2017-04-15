@@ -1,39 +1,52 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Tags list</h1>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Tagvalue</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for tag in tags %}
-            <tr>
-                <td><a href="{{ path('tag_show', { 'id': tag.id }) }}">{{ tag.id }}</a></td>
-                <td>{{ tag.tagvalue }}</td>
-                <td>
-                    <ul>
+     <div class="tag_container">
+            <div class="active_tags_container">
+                <u><h3 class="page">Active Tags</h3></u>
+                <hr>
+            {% for tag in tags %}
+                {% if tag.isProposed != true  %}
+                    {{ tag.tagvalue }}<br>
+                {% endif %}
+            {% endfor %}
+            </div>
+            <div class="proposed_tags_container">
+                <u><h3 class="page">Proposed Tags</h3></u>
+                <hr>
+                {% for tag in tags %}
+                    {% if tag.isProposed == true  %}
+                        {{ tag.tagvalue }}<br>
+                    {% if is_granted('ROLE_MODERATOR') %}
                         <li>
-                            <a href="{{ path('tag_show', { 'id': tag.id }) }}">show</a>
+                            <a href="{{ path('tag_edit', { 'id': tag.id }) }}">Edit</a>
                         </li>
-                        <li>
-                            <a href="{{ path('tag_edit', { 'id': tag.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+                    {% endif %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
 
-    <ul>
-        <li>
-            <a href="{{ path('tag_new') }}">Create a new tag</a>
-        </li>
-    </ul>
+    {#---------------CSS-------------------#}
+    <style>
+        .tag_container {
+            display:flex;
+        }
+        .proposed_tags_container {
+            width:50%;
+        }
+
+        .active_tags_container {
+            width:50%;
+        }
+
+        .page {
+            text-align: center;
+        }
+
+        .active_tags_container {
+            border-right: inset;
+        }
+    </style>
+    {#---------------CSS-------------------#}
 {% endblock %}

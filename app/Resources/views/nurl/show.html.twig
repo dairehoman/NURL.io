@@ -30,6 +30,11 @@
 
     <ul>
         <li>
+            {{ form_start(nurl_upvote) }}
+            <input type="submit" value="Upvote This Nurl!">
+            {{ form_end(nurl_upvote) }}
+        </li>
+        <li>
             <a href="{{ path('nurl_index') }}">Back to the list</a>
         </li>
         <li>
@@ -39,11 +44,6 @@
             {{ form_start(delete_form) }}
                 <input type="submit" value="Delete">
             {{ form_end(delete_form) }}
-        </li>
-        <li>
-            {{ form_start(add_to_collection_form) }}
-            <input type="submit" value="Add To a Collection">
-            {{ form_end(add_to_collection_form) }}
         </li>
     </ul>
 {% endblock %}

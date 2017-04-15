@@ -100,7 +100,7 @@ class Nurl
      *
      * @ORM\Column(name="num_votes", type="integer")
      */
-    private $numVotes;
+    private $numVotes = -1;
 
     /**
      * @var string

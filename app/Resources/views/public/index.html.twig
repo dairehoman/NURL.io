@@ -19,13 +19,22 @@
                                 <td><u>Last Edited</u>: {{ nurl.dateLastEdited | date('Y-m-d H:i:s') }}</td><br><br>
                                 <td><b>{{ nurl.author.username }}</b> says:</td><br>
                                 <td><em>"{{ nurl.note }}"</em></td><br><br>
-                                <td><u>Upvotes received</u>: {{ nurl.numVotes }}</td><br>
-                                <td><u>Tags: </u>
+                                <td><u>Upvotes received</u>:
+                                    {% if nurl.numVotes == -1 %}
+                                        No votes yet :-(
+                                    {% else %}
+                                        {{ nurl.numVotes }}
+                                    {% endif %}
+                                </td><br>
+                                <td><u>Tags</u>:
                                     {% for tag in nurl.tags %}
                                         {{ tag.tagvalue }}
                                     {% endfor %}
                                 </td><br>
                             </tr>
+                            <li>
+                                <a href="{{ path('nurl_show', { 'id': nurl.id }) }}">View Nurl</a>
+                            </li>
                             <hr>
                         {% endif %}
                     {% endfor %}
@@ -45,7 +54,7 @@
                                 <td><em>"{{ collection.description }}"</em></td><br><br>
                             </tr>
                             <li>
-                                <a href="{{ path('collection_show', { 'id': collection.id }) }}">show</a>
+                                <a href="{{ path('collection_show', { 'id': collection.id }) }}">View Collection</a>
                             </li>
                             <hr>
                         {% endif %}
@@ -70,7 +79,6 @@
 
             .container {
                 display: flex;
-                padding: 0.2rem;
             }
 
         </style>

@@ -89,12 +89,11 @@ class NurlController extends Controller
     public function showAction(Nurl $nurl)
     {
         $deleteForm = $this->createDeleteForm($nurl);
-        $addToCollectionForm = $this->createAddToCollectionForm($nurl);
+        $upVoteForm = $this->createUpVoteForm($nurl);
         return $this->render('nurl/show.html.twig', array(
             'nurl' => $nurl,
             'delete_form' => $deleteForm->createView(),
-            'add_to_collection_form'=>$addToCollectionForm->createView(),
-
+            'nurl_upvote' => $upVoteForm->createView(),
         ));
     }
 
@@ -110,7 +109,7 @@ class NurlController extends Controller
         $editForm = $this->createForm('AppBundle\Form\NurlType', $nurl);
         $editForm->handleRequest($request);
         $nurl->setDateLastEdited(new \DateTime());
-        $user = $this->getUser();
+
         if($editForm["collection"]->getData() != null)
         {
             $collection = $editForm["collection"]->getData();
@@ -128,32 +127,34 @@ class NurlController extends Controller
             'delete_form' => $deleteForm->createView(),
         ));
     }
-//--------------------------------------------------------------------------------------------
+//---------------------------------------------------------------
     /**
-     * Creates a route to add a Nurl to a Collection
+     * Upvotes a nurl entity.
      *
-     * @Route("/{id}/add/", name="nurl_add_to_collection")
-     * @Method({"GET", "POST"})
+     * @Route("/{id}/upvote", name="nurl_upvote")
+     * @Method("PUT")
      */
-    public function addToCollectionAction(Request $request, Nurl $nurl)
+    public function upVoteAction(Request $request, Nurl $nurl)
     {
-        $addToCollectionForm = $this->createAddToCollectionForm($nurl);
-        $addToCollectionForm->handleRequest($request);
+        $form = $this->createUpVoteForm($nurl);
+        $form->handleRequest($request);
 
-        if ($addToCollectionForm->isSubmitted() && $addToCollectionForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('home');
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            if($nurl->getNumVotes() == -1)
+            {
+                $nurl->setNumVotes($nurl->getNumVotes() + 2);
+            }
+            else
+            {
+                $nurl->setNumVotes($nurl->getNumVotes() + 1);
+            }
+            $em->flush();
         }
 
-        return $this->render('nurl/edit.html.twig', array(
-            'nurl' => $nurl,
-            'edit_form' => $addToCollectionForm->createView(),
-            'delete_form' => $addToCollectionForm->createView(),
-            'add_to_collection_form'=>$addToCollectionForm->createView(),
-        ));
+        return $this->redirectToRoute('nurl_index');
     }
-//--------------------------------------------------------------------------------------------
+    //---------------------------------------------------------------
 
     /**
      * Deletes a nurl entity.
@@ -192,16 +193,17 @@ class NurlController extends Controller
     }
 
     /**
-     * Creates a form to ADD a nurl entity TO A COLLECTION.
+     * Creates a form to upvote a nurl entity.
      *
-     * @param Nurl $nurl
+     * @param Nurl $nurl The nurl entity
+     *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createAddToCollectionForm(Nurl $nurl)
+    private function createUpVoteForm(Nurl $nurl)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('nurl_add_to_collection', array('id' => $nurl->getId())))
-            ->setMethod('POST')
+            ->setAction($this->generateUrl('nurl_upvote', array('id' => $nurl->getId())))
+            ->setMethod('PUT')
             ->getForm()
             ;
     }

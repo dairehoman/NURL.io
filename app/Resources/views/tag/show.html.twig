@@ -24,6 +24,17 @@
             <a href="{{ path('tag_edit', { 'id': tag.id }) }}">Edit</a>
         </li>
         <li>
+            {{ form_start(tag_upvote) }}
+            <input type="submit" value="Upvote this Tag! :-)">
+            {{ form_end(tag_upvote) }}
+        </li>
+
+        <li>
+            {{ form_start(tag_downvote) }}
+            <input type="submit" value="Downvote this Tag! :-(">
+            {{ form_end(tag_downvote) }}
+        </li>
+        <li>
             {{ form_start(delete_form) }}
                 <input type="submit" value="Delete">
             {{ form_end(delete_form) }}

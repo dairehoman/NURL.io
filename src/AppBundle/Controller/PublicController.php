@@ -10,7 +10,7 @@ class PublicController extends Controller
     /**
      * @Route("/", name="home")
      */
-    public function indexNurlAction(Request $request)
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $nurls = $em->getRepository('AppBundle:Nurl')->findAll();
@@ -21,4 +21,5 @@ class PublicController extends Controller
             'collections' => $collections,
         ));
     }
+
 }
