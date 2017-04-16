@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * Nurl
@@ -80,6 +81,36 @@ class Nurl
      * @ORM\Column(name="is_reported_against", type="boolean")
      */
     private $isReportedAgainst = false;
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="reported_against_reason", type="string",  length=255)
+     */
+    private $reportedAgainstReason = '';
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="time_reported", type="datetime", length=255)
+     */
+    private $timeReported;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="email_of_reporter", type="string", length=255)
+     */
+    private $emailOfReporter = '';
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="moderator_comments", type="string", length=255)
+     */
+    private $moderatorComments = '';
 
     /**
      * @var string
@@ -467,5 +498,101 @@ class Nurl
     public function getTags()
     {
         return $this->tags;
+    }
+
+    /**
+     * Set reportedAgainstReason
+     *
+     * @param string $reportedAgainstReason
+     *
+     * @return Nurl
+     */
+    public function setReportedAgainstReason($reportedAgainstReason)
+    {
+        $this->reportedAgainstReason = $reportedAgainstReason;
+
+        return $this;
+    }
+
+    /**
+     * Get reportedAgainstReason
+     *
+     * @return string
+     */
+    public function getReportedAgainstReason()
+    {
+        return $this->reportedAgainstReason;
+    }
+
+    /**
+     * Set timeReported
+     *
+     * @param \DateTime $timeReported
+     *
+     * @return Nurl
+     */
+    public function setTimeReported($timeReported)
+    {
+        $this->timeReported = $timeReported;
+
+        return $this;
+    }
+
+    /**
+     * Get timeReported
+     *
+     * @return string
+     */
+    public function getTimeReported()
+    {
+        return $this->timeReported;
+    }
+
+    /**
+     * Set emailOfReporter
+     *
+     * @param string $emailOfReporter
+     *
+     * @return Nurl
+     */
+    public function setEmailOfReporter($emailOfReporter)
+    {
+        $this->emailOfReporter = $emailOfReporter;
+
+        return $this;
+    }
+
+    /**
+     * Get emailOfReporter
+     *
+     * @return string
+     */
+    public function getEmailOfReporter()
+    {
+        return $this->emailOfReporter;
+    }
+
+    /**
+     * Set moderatorComments
+     *
+     * @param string $moderatorComments
+     *
+     * @return Nurl
+     */
+    public function setModeratorComments($moderatorComments)
+    {
+        $this->moderatorComments = $moderatorComments;
+
+        return $this;
+    }
+
+    /**
+     * Get moderatorComments
+     *
+     * @return string
+     */
+    public function getModeratorComments()
+    {
+        return $this->moderatorComments;
     }
 }

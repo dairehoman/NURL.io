@@ -22,8 +22,7 @@
                 <a href="{{ path('tag_index') }}">View Proposed Tags</a>
                 &nbsp;&nbsp;|&nbsp;&nbsp;
                 {% if is_granted('ROLE_MODERATOR') %}
-                    <a href="{{ path('tag_new') }}">View Frozen Nurls</a>
-
+                    <a href="{{ path('nurl_frozen') }}">View Frozen Nurls</a>
                 {% endif %}
             </div>
         {% else %}

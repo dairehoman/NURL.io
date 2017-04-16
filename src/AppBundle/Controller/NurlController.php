@@ -2,7 +2,6 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\Collection;
 use AppBundle\Entity\Nurl;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -16,6 +15,8 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class NurlController extends Controller
 {
+    //---------------------------------------------------------------
+
     /**
      * Lists all nurl entities.
      *
@@ -32,6 +33,7 @@ class NurlController extends Controller
             'nurls' => $nurls,
         ));
     }
+    //---------------------------------------------------------------
 
     /**
      * Creates a new nurl entity.
@@ -44,18 +46,15 @@ class NurlController extends Controller
         $nurl = new Nurl();
         $form = $this->createForm('AppBundle\Form\NurlType',$nurl, array('user' => $this->getUser()));
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $user = $this->getUser();
-
             if($form["collection"]->getData() != null)
             {
                 $collection = $form["collection"]->getData();
                 $nurl->addCollection($collection);
                 $collection->addNurl($nurl);
             }
-
             if($form["tags"]->getData() != null)
             {
                 $tags = $form["tags"]->getData();
@@ -64,13 +63,12 @@ class NurlController extends Controller
                     $nurl->addTag($tag);
                 }
             }
-
+            $nurl->setTimeReported(new \DateTime());
             $nurl->setDateCreated(new \DateTime());
             $nurl->setDateLastEdited(new \DateTime());
             $nurl->setAuthor($user);
             $em->persist($nurl);
             $em->flush();
-
             return $this->redirectToRoute('nurl_show', array('id' => $nurl->getId()));
         }
 
@@ -79,6 +77,7 @@ class NurlController extends Controller
             'form' => $form->createView(),
         ));
     }
+    //---------------------------------------------------------------
 
     /**
      * Finds and displays a nurl entity.
@@ -90,13 +89,64 @@ class NurlController extends Controller
     {
         $deleteForm = $this->createDeleteForm($nurl);
         $upVoteForm = $this->createUpVoteForm($nurl);
+        $createReportAgainstForm = $this->createReportAgainstForm($nurl);
+
         return $this->render('nurl/show.html.twig', array(
             'nurl' => $nurl,
             'delete_form' => $deleteForm->createView(),
             'nurl_upvote' => $upVoteForm->createView(),
+            'nurl_report' => $createReportAgainstForm->createView()
         ));
     }
+    //---------------------------------------------------------------
 
+    /**
+     * Finds and displays a nurl entity.
+     *
+     * @Route("/{id}/report", name="nurl_report")
+     * @Method("POST")
+     */
+    public function reportAction(Request $request, Nurl $nurl)
+    {
+
+        $createReportAgainstForm = $this->createForm('AppBundle\Form\ReportNurlType', $nurl);
+        $createReportAgainstForm->handleRequest($request);
+
+        if ($createReportAgainstForm->isSubmitted() && $createReportAgainstForm->isValid())
+        {
+            $nurl->setTimeReported(new \DateTime());
+            $nurl->setEmailOfReporter($this->getUser()->getEmail());
+            $nurl->setReportedAgainstReason($createReportAgainstForm['reportedAgainstReason']->getData());
+            $nurl->setIsReportedAgainst(true);
+            $this->getDoctrine()->getManager()->flush();
+        }
+
+        return $this->render('nurl/report.html.twig', array(
+            'nurl' => $nurl,
+            'nurl_report' => $createReportAgainstForm->createView()
+        ));
+    }
+    //---------------------------------------------------------------
+
+    //---------------------------------------------------------------
+
+    /**
+     * Finds and displays a nurl entity.
+     *
+     * @Route("/frozen/index", name="nurl_frozen")
+     * @Method("GET")
+     */
+    public function frozenAction()
+    {
+
+        $em = $this->getDoctrine()->getManager();
+        $nurls = $em->getRepository('AppBundle:Nurl')->findAll();
+
+        return $this->render('nurl/frozen.html.twig', array(
+            'nurls' => $nurls,
+        ));
+    }
+    //---------------------------------------------------------------
     /**
      * Displays a form to edit an existing nurl entity.
      *
@@ -127,7 +177,7 @@ class NurlController extends Controller
             'delete_form' => $deleteForm->createView(),
         ));
     }
-//---------------------------------------------------------------
+    //---------------------------------------------------------------
     /**
      * Upvotes a nurl entity.
      *
@@ -175,6 +225,7 @@ class NurlController extends Controller
 
         return $this->redirectToRoute('nurl_index');
     }
+    //---------------------------------------------------------------
 
     /**
      * Creates a form to delete a nurl entity.
@@ -191,6 +242,7 @@ class NurlController extends Controller
             ->getForm()
         ;
     }
+    //---------------------------------------------------------------
 
     /**
      * Creates a form to upvote a nurl entity.
@@ -207,4 +259,24 @@ class NurlController extends Controller
             ->getForm()
             ;
     }
+    //---------------------------------------------------------------
+
+
+    /**
+     * Creates a form to report a nurl entity.
+     *
+     * @param Nurl $nurl The nurl entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createReportAgainstForm(Nurl $nurl)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('nurl_report', array('id' => $nurl->getId())))
+            ->setMethod('PUT')
+            ->getForm()
+            ;
+    }
+    //---------------------------------------------------------------
+
 }

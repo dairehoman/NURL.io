@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <br>
+        {{ form_start(nurl_report) }}
+        {{ form_widget(nurl_report) }}
+            <input type="submit" value="REPORT NURL">
+        {{ form_end(nurl_report) }}
+
+{% endblock %}

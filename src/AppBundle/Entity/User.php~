@@ -333,4 +333,28 @@ class User implements UserInterface, \Serializable
     {
         return $this->bio;
     }
+
+    /**
+     * Set isPrivate
+     *
+     * @param boolean $isPrivate
+     *
+     * @return User
+     */
+    public function setIsPrivate($isPrivate)
+    {
+        $this->isPrivate = $isPrivate;
+
+        return $this;
+    }
+
+    /**
+     * Get isPrivate
+     *
+     * @return boolean
+     */
+    public function getIsPrivate()
+    {
+        return $this->isPrivate;
+    }
 }

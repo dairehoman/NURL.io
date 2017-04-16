@@ -41,6 +41,9 @@
             <a href="{{ path('nurl_edit', { 'id': nurl.id }) }}">Edit</a>
         </li>
         <li>
+            <a href="{{ path('nurl_report', { 'id': nurl.id }) }}">Report this nurl</a>
+        </li>
+        <li>
             {{ form_start(delete_form) }}
                 <input type="submit" value="Delete">
             {{ form_end(delete_form) }}
