@@ -28,6 +28,7 @@ class TagController extends Controller
 
         return $this->render('tag/index.html.twig', array(
             'tags' => $tags,
+
         ));
     }
 
@@ -88,12 +89,11 @@ class TagController extends Controller
     public function editAction(Request $request, Tag $tag)
     {
         $deleteForm = $this->createDeleteForm($tag);
-        $editForm = $this->createForm('AppBundle\Form\TagType', $tag);
+        $editForm = $this->createForm('AppBundle\Form\TagType', $tag, array('user' => $this->getUser()));
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
             return $this->redirectToRoute('tag_edit', array('id' => $tag->getId()));
         }
 
@@ -138,13 +138,28 @@ class TagController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            if($tag->getNumVotes() == -1)
+
+            if($this->getUser() == null)
             {
-                $tag->setNumVotes($tag->getNumVotes() + 2);
+                if($tag->getNumVotes() == -1)
+                {
+                    $tag->setNumVotes($tag->getNumVotes() + 2);
+                }
+                else
+                {
+                    $tag->setNumVotes($tag->getNumVotes() + 1);
+                }
             }
-            else
-            {
-                $tag->setNumVotes($tag->getNumVotes() + 1);
+            else {
+                if($tag->getNumVotes() == -1)
+                {
+                    $tag->setNumVotes($tag->getNumVotes() + 6);
+                }
+                else
+                {
+                    $tag->setNumVotes($tag->getNumVotes() + 5);
+                }
+
             }
             $em->flush();
         }

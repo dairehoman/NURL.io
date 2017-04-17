@@ -66,7 +66,7 @@ class Collection
     private $author;
 
     /**
-     * Many User have Many Phonenumbers.
+     * Many Collections have Many Nurls.
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Nurl")
      * @ORM\JoinTable(name="collections_nurls",
      *      joinColumns={@ORM\JoinColumn(name="collection_id", referencedColumnName="id")},

@@ -12,12 +12,20 @@
                             <hr>
                             <tr>
                                 <td><h2><em><u>{{ nurl.title }}</u></em></h2></td>
-                                <td><u>Publisher</u>: <a href="{{ path('user_show', { 'id': nurl.author.id }) }}">{{ nurl.author.username }}</a></td><br>
+                                {% if nurl.author == null %}
+                                    <td><u>Publisher</u>: Anonymous</td><br>
+                                {% else %}
+                                    <td><u>Publisher</u>: <a href="{{ path('user_show', { 'id': nurl.author.id }) }}">{{ nurl.author.username }}</a></td><br>
+                                {% endif %}
                                 <td><u>URL</u>: <a target="_blank" href="{{ nurl.link }}">{{ nurl.link }}</a></td><br>
                                 <td><u>Original Source</u>: {{ nurl.source }}</td><br>
                                 <td><u>Created</u>: {{ nurl.dateCreated | date('Y-m-d H:i:s') }}</td><br>
                                 <td><u>Last Edited</u>: {{ nurl.dateLastEdited | date('Y-m-d H:i:s') }}</td><br><br>
-                                <td><b>{{ nurl.author.username }}</b> says:</td><br>
+                                {% if nurl.author == null %}
+                                    <td><b>Anonymous</b> says:</td><br>
+                                {% else %}
+                                    <td><b>{{ nurl.author.username }}</b> says:</td><br>
+                                {% endif %}
                                 <td><em>"{{ nurl.note }}"</em></td><br><br>
                                 <td><u>Upvotes received</u>:
                                     {% if nurl.numVotes == -1 %}

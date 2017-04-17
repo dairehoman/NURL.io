@@ -8,6 +8,7 @@
             {% for tag in tags %}
                 {% if tag.isProposed != true  %}
                     {{ tag.tagvalue }}<br>
+                    <hr>
                 {% endif %}
             {% endfor %}
             </div>
@@ -15,13 +16,22 @@
                 <u><h3 class="page">Proposed Tags</h3></u>
                 <hr>
                 {% for tag in tags %}
-                    {% if tag.isProposed == true  %}
-                        {{ tag.tagvalue }}<br>
+                    {% if tag.isProposed   %}
+                        Tag: {{ tag.tagvalue }}<br>
+                        {% if tag.numVotes == -1 %}
+                            Vote Count: 0
+                        {% else %}
+                            Vote Count: {{ tag.numVotes }}
+                        {% endif %}
+                        <li>
+                            <a href="{{ path('tag_show', { 'id': tag.id }) }}">VOTE!</a>
+                        </li>
                     {% if is_granted('ROLE_MODERATOR') %}
                         <li>
-                            <a href="{{ path('tag_edit', { 'id': tag.id }) }}">Edit</a>
+                            <a href="{{ path('tag_edit', { 'id': tag.id }) }}">Make a Decision</a>
                         </li>
                     {% endif %}
+                        <hr>
                     {% endif %}
                 {% endfor %}
             </div>

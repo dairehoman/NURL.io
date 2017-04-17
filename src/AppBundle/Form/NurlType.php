@@ -21,20 +21,24 @@ class NurlType extends AbstractType
         $builder->add('title')
                 ->add('link')
                 ->add('source')
-                ->add('note')
-                ->add('isPublic');
+                ->add('note');
 
-        $builder->add('collection', EntityType::class, [
-            'class' => 'AppBundle:Collection',
-            'query_builder' => function (EntityRepository $er) {
-                return $er->createQueryBuilder('c')
-                    ->where('c.author = :user')
-                    ->setParameter('user', $this->user);
-            },
-            'choice_label' => 'title',
-            'mapped' => false,
-            'required'=> false,
-        ]);
+        if($this->user != null)
+        {
+            $builder->add('isPublic');
+
+            $builder->add('collection', EntityType::class, [
+                'class' => 'AppBundle:Collection',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('c')
+                        ->where('c.author = :user')
+                        ->setParameter('user', $this->user);
+                },
+                'choice_label' => 'title',
+                'mapped' => false,
+                'required'=> false,
+            ]);
+        }
 
         $builder->add('tags', EntityType::class, [
             'class' => 'AppBundle:Tag',

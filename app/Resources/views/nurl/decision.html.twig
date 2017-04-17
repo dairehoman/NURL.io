@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<br>
+    <tr>
+    <td><h2><em><u>{{ nurl.title }}</u></em></h2></td>
+        {% if nurl.author == null %}
+            <td><u>Publisher</u>: Anonymous</td><br>
+        {% else %}
+            <td><u>Publisher</u>: <a href="{{ path('user_show', { 'id': nurl.author.id }) }}">{{ nurl.author.username }}</a></td><br>
+        {% endif %}
+    <td><u>URL</u>: <a target="_blank" href="{{ nurl.link }}">{{ nurl.link }}</a></td><br>
+    <td><u>Original Source</u>: {{ nurl.source }}</td><br>
+    <td><u>Created</u>: {{ nurl.dateCreated | date('Y-m-d H:i:s') }}</td><br>
+    <td><u>Last Edited</u>: {{ nurl.dateLastEdited | date('Y-m-d H:i:s') }}</td><br>
+    {% if nurl.isReportedAgainst == true %}
+        <hr style="border-top: dotted 2px;" />
+        <td><b><u>Reason reported against</u>: {{ nurl.reportedAgainstReason }}</b></td><br>
+        <td><b><u>Email of user who reported it</u>: {{ nurl.emailOfReporter }}</b></td><br>
+        <td><b><u>Time Nurl was reported</u>: {{ nurl.timeReported | date('Y-m-d H:i:s') }}</b></td>
+        <td>
+        </tr>
+    {% endif %}
+    <br>
+    <h2>DECISION</h2>
+    <hr>
+    {{ form_start(decision_form) }}
+    {{ form_widget(decision_form) }}
+    <input type="submit" value="Unfreeze NURL">
+    {{ form_end(decision_form) }}
+
+{% endblock %}

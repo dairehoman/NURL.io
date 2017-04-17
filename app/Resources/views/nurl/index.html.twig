@@ -5,9 +5,11 @@
     <hr>
     {% if nurls is defined %}
         {% for nurl in nurls %}
+            {% if nurl.author != null %}
             {% if nurl.author.id == app.user.id %}
                 <hr>
                 <tr>
+
                     <td><h2><em><u>{{ nurl.title }}</u></em></h2></td>
                     <td><u>Publisher</u>: <a href="{{ path('user_show', { 'id': nurl.author.id }) }}">{{ nurl.author.username }}</a></td><br>
                     <td><u>URL</u>: <a target="_blank" href="{{ nurl.link }}">{{ nurl.link }}</a></td><br>
@@ -25,7 +27,8 @@
                         </ul>
                     </td>
                 </tr>
-            <hr>
+                <hr>
+            {% endif %}
             {% endif %}
         {% endfor %}
     {% endif %}

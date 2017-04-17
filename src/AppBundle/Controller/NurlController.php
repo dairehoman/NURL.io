@@ -45,16 +45,12 @@ class NurlController extends Controller
     {
         $nurl = new Nurl();
         $form = $this->createForm('AppBundle\Form\NurlType',$nurl, array('user' => $this->getUser()));
+
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $user = $this->getUser();
-            if($form["collection"]->getData() != null)
-            {
-                $collection = $form["collection"]->getData();
-                $nurl->addCollection($collection);
-                $collection->addNurl($nurl);
-            }
+
             if($form["tags"]->getData() != null)
             {
                 $tags = $form["tags"]->getData();
@@ -63,12 +59,35 @@ class NurlController extends Controller
                     $nurl->addTag($tag);
                 }
             }
-            $nurl->setTimeReported(new \DateTime());
-            $nurl->setDateCreated(new \DateTime());
-            $nurl->setDateLastEdited(new \DateTime());
+
             $nurl->setAuthor($user);
-            $em->persist($nurl);
-            $em->flush();
+
+            if(null === $nurl->getAuthor())
+            {
+                $nurl->setTimeReported(new \DateTime());
+                $nurl->setDateCreated(new \DateTime());
+                $nurl->setDateLastEdited(new \DateTime());
+                $nurl->setIsProposedByAnonymous(true);
+                $nurl->setIsPublic(false);
+                $em->persist($nurl);
+                $em->flush();
+            }
+
+            else
+            {
+                if($form["collection"]->getData() != null)
+                {
+                    $collection = $form["collection"]->getData();
+                    $nurl->addCollection($collection);
+                    $collection->addNurl($nurl);
+                }
+                $nurl->setIsProposedByAnonymous(false);
+                $nurl->setTimeReported(new \DateTime());
+                $nurl->setDateCreated(new \DateTime());
+                $nurl->setDateLastEdited(new \DateTime());
+                $em->persist($nurl);
+                $em->flush();
+            }
             return $this->redirectToRoute('nurl_show', array('id' => $nurl->getId()));
         }
 
@@ -104,7 +123,7 @@ class NurlController extends Controller
      * Finds and displays a nurl entity.
      *
      * @Route("/{id}/report", name="nurl_report")
-     * @Method("POST")
+     * @Method({"GET","POST"})
      */
     public function reportAction(Request $request, Nurl $nurl)
     {
@@ -135,8 +154,9 @@ class NurlController extends Controller
      *
      * @Route("/frozen/index", name="nurl_frozen")
      * @Method("GET")
+     *
      */
-    public function frozenAction()
+    public function frozenIndexAction()
     {
 
         $em = $this->getDoctrine()->getManager();
@@ -160,13 +180,16 @@ class NurlController extends Controller
         $editForm->handleRequest($request);
         $nurl->setDateLastEdited(new \DateTime());
 
-        if($editForm["collection"]->getData() != null)
-        {
-            $collection = $editForm["collection"]->getData();
-            $nurl->addCollection($collection);
-        }
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
+            if(null != $nurl->getAuthor())
+            {
+                if($editForm["collection"]->getData() != null)
+                {
+                    $collection = $editForm["collection"]->getData();
+                    $nurl->addCollection($collection);
+                }
+            }
             $this->getDoctrine()->getManager()->flush();
             return $this->redirectToRoute('nurl_edit', array('id' => $nurl->getId()));
         }
@@ -191,18 +214,32 @@ class NurlController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            if($nurl->getNumVotes() == -1)
+            if($this->getUser() == null)
             {
-                $nurl->setNumVotes($nurl->getNumVotes() + 2);
+                if($nurl->getNumVotes() == -1)
+                {
+                    $nurl->setNumVotes($nurl->getNumVotes() + 2);
+                }
+                else
+                {
+                    $nurl->setNumVotes($nurl->getNumVotes() + 1);
+                }
             }
-            else
-            {
-                $nurl->setNumVotes($nurl->getNumVotes() + 1);
+            else {
+                if($nurl->getNumVotes() == -1)
+                {
+                    $nurl->setNumVotes($nurl->getNumVotes() + 6);
+                }
+                else
+                {
+                    $nurl->setNumVotes($nurl->getNumVotes() + 5);
+                }
+
             }
             $em->flush();
         }
 
-        return $this->redirectToRoute('nurl_index');
+        return $this->redirectToRoute('home');
     }
     //---------------------------------------------------------------
 
@@ -224,6 +261,37 @@ class NurlController extends Controller
         }
 
         return $this->redirectToRoute('nurl_index');
+    }
+    //---------------------------------------------------------------
+
+    /**
+     * Shows a decision form for moderator/admin to freeze/unfreeze a nurl.
+     *
+     * @Route("/{id}/decide", name="nurl_decide")
+     * @Method({"GET", "POST"})
+     */
+    public function decideAction(Request $request, Nurl $nurl)
+    {
+
+        $form = $this->createForm('AppBundle\Form\DecideType', $nurl);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $nurl->setModeratorComments($form["moderatorComments"]->getData());
+            $nurl->setIsReportedAgainst(false);
+            $nurl->setIsPublic(true);
+            $nurl->setIsProposedByAnonymous(false);
+            $nurl->setReportedAgainstReason('');
+            $nurl->setEmailOfReporter('');
+            $em->flush();
+            return $this->redirectToRoute('nurl_index');
+        }
+
+        return $this->render('nurl/decision.html.twig', array(
+            'nurl' => $nurl,
+            'decision_form' => $form->createView()
+        ));
     }
     //---------------------------------------------------------------
 
@@ -261,7 +329,6 @@ class NurlController extends Controller
     }
     //---------------------------------------------------------------
 
-
     /**
      * Creates a form to report a nurl entity.
      *
@@ -273,6 +340,23 @@ class NurlController extends Controller
     {
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('nurl_report', array('id' => $nurl->getId())))
+            ->setMethod('PUT')
+            ->getForm()
+            ;
+    }
+    //---------------------------------------------------------------
+
+    /**
+     * Creates a form to decide a nurl entity.
+     *
+     * @param Nurl $nurl The nurl entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createDecisionForm(Nurl $nurl)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('nurl_decide', array('id' => $nurl->getId())))
             ->setMethod('PUT')
             ->getForm()
             ;

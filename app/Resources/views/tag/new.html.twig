@@ -4,10 +4,8 @@
     <h1>Propose a Tag</h1>
 
     {{ form_start(form) }}
-
-            {{ form_widget(form.isProposed, { 'disabled':'disabled' }) }}
-
-        <input class="button" type="submit" value="Create" />
+            {{ form_widget(form) }}
+        <input class="button" type="submit" value="Propose" />
     {{ form_end(form) }}
 
     <br>
@@ -19,9 +17,6 @@
     </ul>
 
     <style>
-        .button {
-            position: absolute;
-            bottom:17rem;
-        }
+
     </style>
 {% endblock %}

@@ -4,7 +4,6 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * Nurl
@@ -19,13 +18,13 @@ class Nurl
      * Many Nurls have One Author.
      *
      * @ORM\ManyToOne(targetEntity="User", inversedBy="nurls")
-     * @ORM\JoinColumn(name="author_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="author_id", referencedColumnName="id", nullable=true)
      */
     private $author;
 
 
     /**
-     * Many User have Many Phonenumbers.
+     * Many Nurls have Many Collections.
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Collection")
      * @ORM\JoinTable(name="nurls_collections",
      *      joinColumns={@ORM\JoinColumn(name="nurl_id", referencedColumnName="id")},
@@ -74,6 +73,13 @@ class Nurl
      * @ORM\Column(name="is_public", type="boolean")
      */
     private $isPublic;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_proposed_by_anonymous", type="boolean")
+     */
+    private $isProposedByAnonymous;
 
     /**
      * @var boolean
@@ -594,5 +600,29 @@ class Nurl
     public function getModeratorComments()
     {
         return $this->moderatorComments;
+    }
+
+    /**
+     * Set isProposedByAnonymous
+     *
+     * @param boolean $isProposedByAnonymous
+     *
+     * @return Nurl
+     */
+    public function setIsProposedByAnonymous($isProposedByAnonymous)
+    {
+        $this->isProposedByAnonymous = $isProposedByAnonymous;
+
+        return $this;
+    }
+
+    /**
+     * Get isProposedByAnonymous
+     *
+     * @return boolean
+     */
+    public function getIsProposedByAnonymous()
+    {
+        return $this->isProposedByAnonymous;
     }
 }
